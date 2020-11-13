@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import Matter from "matter-js";
 import { GameEngine } from "react-native-game-engine";
 import Box from './renderers/Box';
+import Circle from './renderers/Circle'
 import Physics from './systems/physics';
 import {CreateBox, BoxCollision} from './systems/Boxes';
 
@@ -13,7 +14,12 @@ const Game = () => {
   
   //create boxes
   const boxSize = Math.trunc(Math.max(width, height) * 0.075);
-  const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
+  //const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
+
+  //create circle
+  const circleSize = Math.trunc(Math.max(width, height) * 0.075);
+  const radius = circleSize / 2;  
+  const initialCircle = Matter.Bodies.circle(width / 2, height / 2, radius, { density: 0.04, frictionAir: 0.005});
 
   //create floor
   const floor = Matter.Bodies.rectangle(width / 2, height - boxSize / 2, width, boxSize, { isStatic: true });
@@ -23,7 +29,7 @@ const Game = () => {
   const world = engine.world;
 
   //initialize world with entities
-  Matter.World.add(world, [initialBox, floor]);
+  Matter.World.add(world, [initialCircle, floor]);
 
   return (
     <GameEngine 
@@ -34,11 +40,11 @@ const Game = () => {
         engine: engine,
         world: world,
       },
-      initialBox: { 
-        body: initialBox, 
-        size: [boxSize, boxSize], 
+      initialCircle: { 
+        body: initialCircle, 
+        size: [circleSize, radius], 
         color: 'red', 
-        renderer: Box,
+        renderer: Circle,
       },
       floor: { 
         body: floor, 
