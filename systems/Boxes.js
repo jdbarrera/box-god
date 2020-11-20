@@ -16,7 +16,7 @@ const CreateBox = (entities, { touches, screen }) => {
                          restitution: 0.5, 
                         });
             Matter.World.add(world, [boxes[boxIds]]);
-            entities[boxIds] = {
+            entities['box' + boxIds] = {
                 body: boxes[boxIds],
                 size: [boxSize, boxSize],
                 color: boxIds % 2 == 0 ? "pink" : "#B8E986",
@@ -26,17 +26,4 @@ const CreateBox = (entities, { touches, screen }) => {
     return entities;
 };
 
-const BoxCollision = (entities, { touches, screen }) => {
-    let world = entities["physics"].world;
-    if (entities['3'] && entities['4']) {
-      let collision = Matter.SAT.collides(boxes['3'], boxes['4']);
-      if (collision.collided) {
-        delete entities['3'];
-        Matter.Composite.remove(world, boxes['3']);
-      }
-    }
-      
-    return entities;
-};
-
-export {CreateBox, BoxCollision};
+export {CreateBox};

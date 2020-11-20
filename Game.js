@@ -4,11 +4,16 @@ import Constants from 'expo-constants';
 import Matter from "matter-js";
 import { GameEngine } from "react-native-game-engine";
 import Box from './renderers/Box';
-import Circle from './renderers/Circle'
+import Circle from './renderers/Circle';
+import ScoreView from './renderers/ScoreView'
 import Physics from './systems/physics';
-import {CreateBox, BoxCollision} from './systems/Boxes';
+import {CreateBox} from './systems/Boxes';
+import {CircleCollision, CircleTrajectory} from './systems/Circles';
 
 const Game = () => {
+  //start score
+  let score = 0;
+
   //get screen dimensions
   const { width, height } = Dimensions.get("screen");
   
@@ -34,7 +39,7 @@ const Game = () => {
   return (
     <GameEngine 
     style={styles.container}
-    systems={[Physics, CreateBox, BoxCollision]}
+    systems={[Physics, CreateBox, CircleCollision, CircleTrajectory]}
     entities={{ 
       physics: {
         engine: engine,
@@ -52,6 +57,11 @@ const Game = () => {
         color: "green", 
         renderer: Box, 
       },
+      scoreView: {
+        score: score,
+        xPos: initialCircle.position.x,
+        renderer: ScoreView,
+      }
     }}>
       <StatusBar hidden={true} />
     </GameEngine>
