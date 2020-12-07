@@ -7,46 +7,46 @@ import Box from './renderers/Box';
 import Circle from './renderers/Circle';
 import ScoreView from './renderers/ScoreView'
 import Physics from './systems/physics';
-import {CreateBox} from './systems/Boxes';
+import {CreateBox, BoxCollisions} from './systems/Boxes';
 import {CircleCollision, CircleTrajectory} from './systems/Circles';
+import { randomInt } from 'mathjs';
 
-const Game = () => {
-  //start score
-  let score = 0;
+  const getEntities = () => {//get screen dimensions
+    const { width, height } = Dimensions.get("screen");
+    
+    //create boxes
+    const boxSize = Math.trunc(Math.max(width, height) * 0.075);
+    //const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
 
-  //get screen dimensions
-  const { width, height } = Dimensions.get("screen");
-  
-  //create boxes
-  const boxSize = Math.trunc(Math.max(width, height) * 0.075);
-  //const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
+    //create circle
+    const circleSize = Math.trunc(Math.max(width, height) * 0.075);
+    const radius = circleSize / 2;  
+    const circleDemon = Matter.Bodies.circle(width / 2, height / 3, radius, { 
+      density: 0.04, 
+      frictionAir: 0.005,
+      trajectory: randomInt(-10, 10) / 10,
+    });
 
-  //create circle
-  const circleSize = Math.trunc(Math.max(width, height) * 0.075);
-  const radius = circleSize / 2;  
-  const initialCircle = Matter.Bodies.circle(width / 2, height / 2, radius, { density: 0.04, frictionAir: 0.005});
+    //create floor
+    const floor = Matter.Bodies.rectangle(width / 2, height - boxSize / 2, width, boxSize, { isStatic: true });
 
-  //create floor
-  const floor = Matter.Bodies.rectangle(width / 2, height - boxSize / 2, width, boxSize, { isStatic: true });
+    //create platforms
+    const platform1 = Matter.Bodies.rectangle(width / 2, height / 2, width / 3, boxSize / 2, { isStatic: true });
 
-  //create engine and world
-  const engine = Matter.Engine.create({ enableSleeping: false });
-  const world = engine.world;
+    //create engine and world
+    const engine = Matter.Engine.create({ enableSleeping: false });
+    const world = engine.world;
 
-  //initialize world with entities
-  Matter.World.add(world, [initialCircle, floor]);
+    //initialize world with entities
+    Matter.World.add(world, [circleDemon, floor, platform1]);
 
-  return (
-    <GameEngine 
-    style={styles.container}
-    systems={[Physics, CreateBox, CircleCollision, CircleTrajectory]}
-    entities={{ 
+    return {
       physics: {
         engine: engine,
         world: world,
       },
-      initialCircle: { 
-        body: initialCircle, 
+      circleDemon: { 
+        body: circleDemon, 
         size: [circleSize, radius], 
         color: 'red', 
         renderer: Circle,
@@ -57,12 +57,28 @@ const Game = () => {
         color: "green", 
         renderer: Box, 
       },
+      platform1: {
+        body: platform1,
+        size: [width / 3, boxSize / 2],
+        color: "red",
+        renderer: Box,
+      },
       scoreView: {
-        score: score,
-        xPos: initialCircle.position.x,
+        score: 0,
+        xPos: circleDemon.position.x,
         renderer: ScoreView,
       }
-    }}>
+    }
+}
+
+const Game = () => {
+  const entities = getEntities();
+
+  return (
+    <GameEngine 
+    style={styles.container}
+    systems={[Physics, CreateBox, BoxCollisions, CircleCollision, CircleTrajectory]}
+    entities={entities}>
       <StatusBar hidden={true} />
     </GameEngine>
   );
