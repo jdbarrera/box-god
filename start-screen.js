@@ -2,16 +2,6 @@ import * as React from 'react';
 import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, } from 'react-native';
 import Constants from 'expo-constants';
 
-
-class Activate extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activate: false
-    };
-  }
-}
-
 const styles = StyleSheet.create({
 
   start: {
@@ -25,18 +15,29 @@ const styles = StyleSheet.create({
   },
 });
 
-const StartScreen = () => {
+class GameControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleStartClick = this.handleStartClick.bind(this);
+    this.state = {isPlaying: false};
+  }
 
-  return (
-    <View style={styles.start}>
-      <Text style={{fontSize: 40}}>BOX GOD</Text>
-      <Button
-        title="Start"
-        onPress={() => this.setState({ activate: this.state == false })}
-      />
-    </View>
-  );
+  handleStartClick() {
+    this.setState({isPlaying: true});
+    console.log("it worked");
+  }
+
+  render() {
+    return (
+      <View style={styles.start}>
+        <Text style={{fontSize: 40}}>BOX GOD</Text>
+        <Button
+          title="Start"
+          onPress={this.handleStartClick}
+        />
+      </View>
+    );
+  }
 }
 
-
-export default StartScreen;
+export default GameControl;
