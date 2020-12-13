@@ -7,7 +7,7 @@ import { GameEngine } from "react-native-game-engine";
 import ControlCenter from './components/ControlCenter';
 import ScoreView from './components/ScoreView'
 
-import levelOneEntities from './Levels/LevelOne';
+import levelOneEntities from './levels/LevelOne';
 
 import Physics from './systems/physics';
 import {CreateBox, BoxCollisions} from './systems/Boxes';
