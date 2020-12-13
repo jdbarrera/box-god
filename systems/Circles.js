@@ -2,8 +2,14 @@ import Matter from "matter-js";
 import Circle from '../renderers/Circle';
 import { Dimensions } from 'react-native';
 import { randomInt } from 'mathjs';
+import {randomSide} from '../utils/CircleFunctions';
+
+import store from '../redux/store';
+import { getScore } from '../redux/selectors';
+import { setScore } from '../redux/actions';
 
 const { width, height } = Dimensions.get("screen");
+const state = store.getState();
 
 let frameCount = 0;
 
@@ -17,34 +23,37 @@ const frameDelayDone = () => {
 
 const CircleCollision = (entities, { touches, screen }) => {
     let world = entities["physics"].world;
-    let score = entities.scoreView.score;
     let circleSize = entities.circleDemon.size[0];
     let radius = entities.circleDemon.size[1];
+    let {side, trajectory} = randomSide(radius, screen.width);
+    let score = state.score;
 
     if (entities.circleDemon && entities.box) {
       let collision = Matter.SAT.collides(entities.circleDemon.body, entities.box.body);
       if (collision.collided) {
-        //delete circle, box and add point
+        //add point
         score++;
+        store.dispatch(setScore(score));
         frameCount++;
 
-        //frame delay for box
-        if (frameDelayDone()) {
-          Matter.Composite.remove(world, entities.box.body);
-          delete entities.box;
-        }
+        //delete box
+        //Matter.Composite.remove(world, entities.box.body);
+        //delete entities.box;
+
+        //mark box
+        entities.box.hitCircle = true;
 
         //delete circle
         Matter.Composite.remove(world, entities.circleDemon.body);        
         delete entities.circleDemon;        
         
-        entities.scoreView.score = score;
+        //entities.score.score = score;      
 
         //create new circle
-        let circleDemon = Matter.Bodies.circle(randomInt(0, width - 30), height / 3, radius, { 
+        let circleDemon = Matter.Bodies.circle(side, height / 3, radius, { 
           density: 0.04, 
           frictionAir: 0.005,
-          trajectory: randomInt(-10, 10) / 10,
+          trajectory: trajectory,
         });
 
         Matter.World.add(world, circleDemon);
@@ -60,19 +69,19 @@ const CircleCollision = (entities, { touches, screen }) => {
     return entities;
 };
 
-const CircleTrajectory = entities => {
-  let xPosDisplay = entities.scoreView.xPos;
+const CircleTrajectory = (entities, {screen}) => {
   let circleBody = entities.circleDemon.body;
   let circleRadius = entities.circleDemon.size[1];
+  let {side, trajectory} = randomSide(circleRadius, screen.width);
   
   if (circleBody.position.x > width + circleRadius || circleBody.position.x < 0 - circleRadius) {
     Matter.Body.set(circleBody, {
-      trajectory: randomInt(-10, 10) / 10,
+      trajectory: trajectory,
     });
 
     Matter.Body.setPosition(circleBody, {
-      x: randomInt(0, width - 30),
-      y: 300,
+      x: side,
+      y: screen.height / 3,
     });
   }
 
@@ -81,7 +90,6 @@ const CircleTrajectory = entities => {
     y: circleBody.position.y,
   });
   
-  entities.scoreView.xPos = circleBody.position.x;
   return entities;
 };
 
