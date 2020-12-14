@@ -1,15 +1,22 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import PropTypes from 'prop-types';
+import Constants from 'expo-constants';
+
+const styles = StyleSheet.create({
+  scoreView: {
+    paddingTop: Constants.statusBarHeight,
+    alignItems: 'flex-start',
+  },
+});
 
 const ScoreView = (props) => {
     const score = props.score;
     const xPos = props.xPos;
     
     return (
-      <View>
+      <View style={styles.scoreView}>
         <Text>Score: {score}</Text>
-        <Text>xPos: {xPos}</Text>
       </View>
     )
 }

@@ -19,7 +19,10 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-game-engine": "*",
     "react-native-paper": "3.6.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "redux": "*",
+    "react-redux": "*",
+    "redux-thunk": "*"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
