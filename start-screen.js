@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, State } from 'react-native';
 import Constants from 'expo-constants';
+import Game from './Game';
 
 const styles = StyleSheet.create({
 
@@ -18,13 +19,17 @@ const styles = StyleSheet.create({
 class GameControl extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isPlaying: false
+    }
+
     this.handleStartClick = this.handleStartClick.bind(this);
-    this.state = {isPlaying: false};
   }
 
   handleStartClick() {
     this.setState({isPlaying: true});
-    console.log("it worked");
+    console.log(this.isPlaying);
   }
 
   render() {
