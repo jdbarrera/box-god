@@ -12,7 +12,12 @@ const styles = StyleSheet.create({
     top: 0, left: 0,
     right: 0, bottom: 0,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 50,
+  },
+
+  score: {
+    paddingTop: 250,
   },
 });
 
@@ -41,7 +46,9 @@ class GameControl extends React.Component {
         <Button
           title="Start"
           onPress={this.handleStartClick}
+          color="black"
         />
+        <Text style={styles.score}> High Score: </Text>
       </View>
     );
   } else {
