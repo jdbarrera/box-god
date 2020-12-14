@@ -22,17 +22,19 @@ class GameControl extends React.Component {
 
     this.state = {
       isPlaying: false
-    }
+    };
 
     this.handleStartClick = this.handleStartClick.bind(this);
   }
 
   handleStartClick() {
     this.setState({isPlaying: true});
-    console.log(this.isPlaying);
+    console.log(this.state.isPlaying);
   }
 
   render() {
+    const isPlaying = this.state.isPlaying;
+    if (!isPlaying) {
     return (
       <View style={styles.start}>
         <Text style={{fontSize: 40}}>BOX GOD</Text>
@@ -42,6 +44,9 @@ class GameControl extends React.Component {
         />
       </View>
     );
+  } else {
+    return ( <Game /> );
+  }
   }
 }
 
