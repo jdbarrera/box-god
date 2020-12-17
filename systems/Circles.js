@@ -4,50 +4,38 @@ import { Dimensions } from 'react-native';
 import { randomInt } from 'mathjs';
 import {randomSide} from '../utils/CircleFunctions';
 
-import store from '../redux/store';
-import { getScore } from '../redux/selectors';
-import { setScore } from '../redux/actions';
+import PlusOne from '../renderers/PlusOne';
 
 const { width, height } = Dimensions.get("screen");
-const state = store.getState();
-
-let frameCount = 0;
-
-const frameDelayDone = () => {
-  if (frameCount >= 5) {
-    frameCount = 0;
-    return true;
-  }
-  return false;
-}
 
 const CircleCollision = (entities, { touches, screen }) => {
     let world = entities["physics"].world;
+    let game = entities.physics.game;
     let circleSize = entities.circleDemon.size[0];
     let radius = entities.circleDemon.size[1];
     let {side, trajectory} = randomSide(radius, screen.width);
-    let score = state.score;
 
     if (entities.circleDemon && entities.box) {
       let collision = Matter.SAT.collides(entities.circleDemon.body, entities.box.body);
       if (collision.collided) {
         //add point
-        score++;
-        store.dispatch(setScore(score));
-        frameCount++;
-
-        //delete box
-        //Matter.Composite.remove(world, entities.box.body);
-        //delete entities.box;
+        game.current.dispatch({type: 'ADD_POINT'});
 
         //mark box
         entities.box.hitCircle = true;
 
         //delete circle
+        let xPos = entities.circleDemon.body.position.x;
+        let yPos = entities.circleDemon.body.position.y;
         Matter.Composite.remove(world, entities.circleDemon.body);        
-        delete entities.circleDemon;        
-        
-        //entities.score.score = score;      
+        delete entities.circleDemon;
+
+        //PlusOne indication
+        entities.plusOne = {
+          xPos: xPos,
+          yPos: yPos,
+          renderer: PlusOne,
+        }
 
         //create new circle
         let circleDemon = Matter.Bodies.circle(side, height / 3, radius, { 

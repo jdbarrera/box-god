@@ -1,1 +1,2 @@
-export const SET_SCORE = 'SET_SCORE';
+export const SET_POINTS = 'SET_POINTS';
+export const SET_LIVES = 'SET_LIVES';

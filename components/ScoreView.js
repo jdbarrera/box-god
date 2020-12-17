@@ -5,24 +5,25 @@ import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
   scoreView: {
-    paddingTop: Constants.statusBarHeight,
     alignItems: 'flex-start',
+    flex: 0.5,
+    paddingTop: Constants.statusBarHeight / 2,
+    paddingLeft: Constants.statusBarHeight / 2,
   },
 });
 
 const ScoreView = (props) => {
-    const score = props.score;
-    const xPos = props.xPos;
     
     return (
       <View style={styles.scoreView}>
-        <Text>Score: {score}</Text>
+        <Text>Score: {props.score.points}</Text>
+        <Text>Lives: {props.score.lives}</Text>
       </View>
     )
 }
 
 ScoreView.propTypes = {
-    score: PropTypes.number,
+    score: PropTypes.object,
 }
 
 export default ScoreView;

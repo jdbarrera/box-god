@@ -6,6 +6,7 @@ import { GameEngine } from "react-native-game-engine";
 
 import Box from '../renderers/Box';
 import Circle from '../renderers/Circle';
+import CloudLine from '../renderers/CloudLine';
 
 import Physics from '../systems/physics';
 import {CreateBox, BoxCollisions} from '../systems/Boxes';
@@ -13,7 +14,7 @@ import {CircleCollision, CircleTrajectory} from '../systems/Circles';
 
 import { randomInt } from 'mathjs';
 
-const levelOneEntities = () => {
+const levelOneEntities = (game) => {
   //get screen dimensions
   const { width, height } = Dimensions.get("screen");
     
@@ -47,6 +48,7 @@ const levelOneEntities = () => {
     physics: {
       engine: engine,
       world: world,
+      game: game,
     },
     circleDemon: { 
       body: circleDemon, 
@@ -65,6 +67,12 @@ const levelOneEntities = () => {
       size: [width / 3, boxSize / 2],
       color: "red",
       renderer: Box,
+    },
+    cloudLine: {
+      size: [width, boxSize / 4],
+      yPos: height / 2,
+      color: 'blue',
+      renderer: CloudLine,
     },
   }
 }

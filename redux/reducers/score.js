@@ -1,11 +1,26 @@
-import { SET_SCORE } from "../actionTypes";
+import { 
+  SET_POINTS,
+  SET_LIVES, 
+  } from "../actionTypes";
 
-const initialState = 0;
+const initialState = {
+  points: 0,
+  lives: 3,
+};
 
 const score = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SCORE: {
-      return action.payload.score;
+    case SET_POINTS: {
+      return {
+        ...state,
+        points: action.payload.points,
+      };
+    }
+    case SET_LIVES: {
+      return {
+        ...state,
+        lives: action.payload.lives,
+      };
     }
     default: {
       return state;

@@ -5,8 +5,8 @@ import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
   pauseButton: {
-    paddingTop: Constants.statusBarHeight,
     alignItems: 'flex-end',
+    flex: 0.5,
   },
 });
 
@@ -28,12 +28,6 @@ const ControlCenter = (props) => {
           />
       </View>
     );
-}
-
-ControlCenter.propTypes = {
-    size: PropTypes.array,
-    body: PropTypes.object, 
-    color: PropTypes.string
 }
 
 export default ControlCenter;
