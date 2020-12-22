@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, State } from 'react-native';
 import Constants from 'expo-constants';
-import Game from './Game';
+import Game from '../Game';
 
 const styles = StyleSheet.create({
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class GameControl extends React.Component {
+class StartScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -55,4 +55,4 @@ class GameControl extends React.Component {
   }
 }
 
-export default GameControl;
+export default StartScreen;
