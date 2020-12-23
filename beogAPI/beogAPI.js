@@ -23,9 +23,9 @@ export const validateUserAPI = async (token) => {
         Authorization: "Bearer " + token
       }
     });
-    console.log(response);
+    return response;
   } catch (error) {
-    console.log(error);
+    return error.response.data;
   }
   
 };
