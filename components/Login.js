@@ -2,11 +2,12 @@ import React, { Component, useState, useEffect } from "react";
 import { View, Button, StyleSheet, TextInput, Text } from "react-native";
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
+import {connect} from 'react-redux';
 
-import ControlCenter from './ControlCenter'
-import ScoreView from './ScoreView'
+import ControlCenter from './ControlCenter';
+import ScoreView from './ScoreView';
 
-import {loginUserAPI} from '../beogAPI/beogAPI'
+import {loginUserBeog} from '../redux/actions';
 
 const styles = StyleSheet.create({
   login: {
@@ -33,14 +34,8 @@ const Login = (props) => {
       email: email,
       password: password
     }
-    try {
-      const response = await loginUserAPI(user);
-      console.log(response);
-      props.setIsLoggedIn(true);
-    } catch (error) {
-      console.log(error);
-    }
-    
+    props.loginUserBeog(user);
+    props.setIsLoggedIn(true);    
   }
 
   useEffect(() => {
@@ -61,9 +56,9 @@ const Login = (props) => {
           value={password}
           onChangeText={handlePasswordUpdate}
         />
-        <Button title="Press to Log In" onPress={() => props.setIsLoggedIn(true)} />
+        <Button title="Press to Log In" onPress={login} />
       </View>
     );
 }
 
-export default Login;
+export default connect(null, {loginUserBeog})(Login);

@@ -2,6 +2,10 @@ import * as React from 'react';
 import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, State } from 'react-native';
 import Constants from 'expo-constants';
 import Game from '../Game';
+import Login from '../components/Login';
+import {connect} from 'react-redux';
+import {getUser} from '../redux/selectors';
+import {validateUserAPI} from '../beogAPI/beogAPI';
 
 const styles = StyleSheet.create({
 
@@ -42,6 +46,11 @@ class StartScreen extends React.Component {
     return (
       <View style={styles.start}>        
         <Text style={{fontSize: 40}}>BOX GOD</Text>
+        <Text style={{fontSize: 20}}>Welcome: {this.props.user.token}</Text>
+        <Button
+          title="Validate"
+          onPress={() => validateUserAPI(this.props.user.token)}
+        />
         <Button
           title="Start"
           onPress={this.handleStartClick}
@@ -55,4 +64,8 @@ class StartScreen extends React.Component {
   }
 }
 
-export default StartScreen;
+const mapStateToProps = state => ({
+  user: getUser(state),
+});
+
+export default connect(mapStateToProps, {getUser})(StartScreen);

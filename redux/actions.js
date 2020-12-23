@@ -5,15 +5,15 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE, 
 } from "./actionTypes";
-import loginUserAPI from '../beogAPI/beogAPI';
+import {loginUserAPI} from '../beogAPI/beogAPI';
 
 export const loginUser = () => ({
   type: LOGIN_USER,
 });
 
-export const loginUserSuccess = (user) => ({
+export const loginUserSuccess = (response) => ({
   type: LOGIN_USER_SUCCESS,
-  payload: user,
+  payload: response,
 });
 
 export const loginUserFailure = (error) => ({
@@ -25,8 +25,8 @@ export const loginUserBeog = (userDets) => async dispatch => {
   dispatch(loginUser());
 
   try {
-    const user = await loginUserAPI(userDets);
-    dispatch(loginUserSuccess(user));
+    const response = await loginUserAPI(userDets);
+    dispatch(loginUserSuccess(response));
   } catch (error) {
     console.log(error);
     dispatch(loginUserFailure(error));
