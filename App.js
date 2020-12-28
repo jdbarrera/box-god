@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, StatusBar, Dimensions } from 'react-native';
-import Constants from 'expo-constants';
-import Game from './Game';
 import StartScreen from './components/start-screen';
-import Login from './components/Login';
-
-import { Provider } from 'react-redux'
-import store from './redux/store'
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { Provider } from 'react-redux';
+import { store, persistor } from './redux/store';
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
     <Provider store={store}>
-      {isLoggedIn ? <StartScreen /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+      <PersistGate loading={null} persistor={persistor}>
+        <StartScreen />
+      </PersistGate>      
     </Provider>
   );
 }

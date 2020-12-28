@@ -11,7 +11,6 @@ import {loginUserBeog} from '../redux/actions';
 
 const styles = StyleSheet.create({
   login: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -44,6 +43,7 @@ const Login = (props) => {
     
     return (
       <View style={styles.login}>
+        <Text>Login</Text>
         <TextInput
           placeholder="email"
           value={email}

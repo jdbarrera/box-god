@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, State } f
 import Game from '../Game';
 import {connect} from 'react-redux';
 import {getUser} from '../redux/selectors';
+import Login from './Login';
 
 const styles = StyleSheet.create({
 
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   companyTags: {
-    paddingTop: 120,
+    paddingTop: 100,
     fontSize: 20,
   }
 });
@@ -26,34 +27,47 @@ class StartScreen extends React.Component {
     super(props);
 
     this.state = {
-      isPlaying: false
+      isPlaying: false,
+      isLoggedIn: false,
     };
 
     this.handleStartClick = this.handleStartClick.bind(this);
   }
 
   handleStartClick() {
-    this.setState({isPlaying: true});
-    console.log(this.state.isPlaying);
+    this.setState(prevState => ({
+      ...prevState,
+      isPlaying: true,
+    }))
+  }
+
+  setIsLoggedIn = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isLoggedIn: true,
+    }))
   }
 
   render() {
     const isPlaying = this.state.isPlaying;
     if (!isPlaying) {
-    return (
-      <View style={styles.start}>        
-        <Text style={{fontSize: 40}}>BOX GOD</Text>
-        <Text style={{fontSize: 20}}>Welcome: {this.props.user.displayname}</Text>
-        <Button
-          title="Start"
-          onPress={this.handleStartClick}
-        />
-        <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
-      </View>
-    );
-  } else {
-    return ( <Game /> );
-  }
+      return (
+        <View style={styles.start}>        
+          <Text style={{fontSize: 40}}>BOX GOD</Text>
+          {this.props.user.token !== ''
+            ? <Text style={{fontSize: 20}}>Welcome: {this.props.user.displayname}</Text>
+            : <Login setIsLoggedIn={this.setIsLoggedIn} />
+          }
+          <Button
+            title="Start"
+            onPress={this.handleStartClick}
+          />
+          <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
+        </View>
+      );
+    } else {
+      return ( <Game /> );
+    }
   }
 }
 

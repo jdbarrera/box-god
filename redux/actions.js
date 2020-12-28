@@ -3,9 +3,11 @@ import {
   SET_LIVES,
   LOGIN_USER,
   LOGIN_USER_SUCCESS,
-  LOGIN_USER_FAILURE, 
+  LOGIN_USER_FAILURE,
+  LOGOUT_USER_SUCCESS,
+  LOGOUT_USER_FAILURE,  
 } from "./actionTypes";
-import {loginUserAPI, validateUserAPI} from '../beogAPI/beogAPI';
+import {loginUserAPI, logoutUserAPI, validateUserAPI} from '../beogAPI/beogAPI';
 
 export const loginUser = () => ({
   type: LOGIN_USER,
@@ -18,6 +20,15 @@ export const loginUserSuccess = (user) => ({
 
 export const loginUserFailure = (error) => ({
   type: LOGIN_USER_FAILURE,
+  payload: error,
+});
+
+export const logoutUserSuccess = () => ({
+  type: LOGOUT_USER_SUCCESS,
+});
+
+export const logoutUserFailure = (error) => ({
+  type: LOGOUT_USER_FAILURE,
   payload: error,
 });
 
@@ -34,6 +45,17 @@ export const loginUserBeog = (userDets) => async dispatch => {
   } catch (error) {
     console.log(error);
     dispatch(loginUserFailure(error));
+  }
+}
+
+export const logoutUserBeog = (token) => async dispatch => {
+  try {
+    const logoutResponse = await logoutUserAPI(token);
+    console.log(logoutResponse);
+    dispatch(logoutUserSuccess());
+  } catch (error) {
+    console.log(error);
+    dispatch(logoutUserFailure(error));
   }
 }
 

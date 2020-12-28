@@ -35,6 +35,14 @@ const user = (state = initialState, action) => {
           loading: false, 
           error: action.payload.error,
       };
+    case LOGOUT_USER:
+      return {
+          ...state, 
+          username: "",
+          email: "",
+          displayname: "",
+          token: "",
+      };
     default:
       return state;
   }
