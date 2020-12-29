@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, State } from 'react-native';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import Game from '../Game';
 import {connect} from 'react-redux';
 import {getUser} from '../redux/selectors';
 import Login from './Login';
+import UserInfo from './UserInfo';
+import { validateUserAPI } from '../beogAPI/beogAPI';
 
 const styles = StyleSheet.create({
 
@@ -34,6 +36,16 @@ class StartScreen extends React.Component {
     this.handleStartClick = this.handleStartClick.bind(this);
   }
 
+  componentDidMount() {
+    //validate token
+    //this.validateUser();
+  }
+
+  validateUser = async () => {
+    const response = await validateUserAPI(this.props.user.token);
+    console.log(response);
+  }
+
   handleStartClick() {
     this.setState(prevState => ({
       ...prevState,
@@ -50,13 +62,14 @@ class StartScreen extends React.Component {
 
   render() {
     const isPlaying = this.state.isPlaying;
+    console.log(this.props.user);
     if (!isPlaying) {
       return (
         <View style={styles.start}>        
           <Text style={{fontSize: 40}}>BOX GOD</Text>
-          {this.props.user.token !== ''
-            ? <Text style={{fontSize: 20}}>Welcome: {this.props.user.displayname}</Text>
-            : <Login setIsLoggedIn={this.setIsLoggedIn} />
+          {this.props.user.token
+            ? <UserInfo />
+            : <Login />
           }
           <Button
             title="Start"

@@ -37,13 +37,26 @@ export const loginUserBeog = (userDets) => async dispatch => {
 
   try {
     const loginResponse = await loginUserAPI(userDets);
-    const jwt = loginResponse.data.data.jwt;
+    console.log(loginResponse);
+    if (loginResponse.success === false) {
+      console.log('fail');
+      dispatch(loginUserFailure(loginResponse.data.message));          
+    } else {
+      const jwt = loginResponse.data.data.jwt;
+      dispatch(validateUserBeog(jwt));  
+    }    
+  } catch (error) {
+    dispatch(loginUserFailure(error));
+  }
+}
+
+export const validateUserBeog = (jwt) => async dispatch => {
+  try {
     const userResponse = await validateUserAPI(jwt);
     const user = userResponse.data.data;
-
+    console.log('validatesuccess');
     dispatch(loginUserSuccess(user));
   } catch (error) {
-    console.log(error);
     dispatch(loginUserFailure(error));
   }
 }
@@ -51,10 +64,8 @@ export const loginUserBeog = (userDets) => async dispatch => {
 export const logoutUserBeog = (token) => async dispatch => {
   try {
     const logoutResponse = await logoutUserAPI(token);
-    console.log(logoutResponse);
     dispatch(logoutUserSuccess());
   } catch (error) {
-    console.log(error);
     dispatch(logoutUserFailure(error));
   }
 }

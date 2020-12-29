@@ -5,30 +5,28 @@ const validateUser = "https://be-og.com/wp-json/simple-jwt-login/v1/auth/validat
 const revokeUser = 'https://be-og.com/wp-json/simple-jwt-login/v1/auth/revoke';
 
 export const loginUserAPI = async (userDets) => {
-
   try {
     const response = await axios.post(userAuth, userDets);
     return response;
   } catch (error) {
-    return error;
-  }
-  
+    return error.response.data;
+  }  
 };
 
-/*export const logoutUserAPI = async (userDets) => {
-
+export const logoutUserAPI = async (token) => {
   try {
-    const response = await axios.post(userAuth, userDets);
+    const response = await axios.post(revokeUser, {}, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
     return response;
   } catch (error) {
-    return error;
-  }
-  
-};*/
+    return error.response.data;
+  }  
+};
 
 export const validateUserAPI = async (token) => {
-  console.log(token);
-
   try {
     const response = await axios.get(validateUser, {
       headers: {
@@ -38,6 +36,5 @@ export const validateUserAPI = async (token) => {
     return response;
   } catch (error) {
     return error.response.data;
-  }
-  
+  }  
 };
