@@ -3,9 +3,10 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import Game from '../Game';
 import {connect} from 'react-redux';
 import {getUser} from '../redux/selectors';
+import {loginUserFailure} from '../redux/actions';
 import Login from './Login';
 import UserInfo from './UserInfo';
-import { validateUserAPI } from '../beogAPI/beogAPI';
+import { refreshUserAPI } from '../beogAPI/beogAPI';
 
 const styles = StyleSheet.create({
 
@@ -37,13 +38,17 @@ class StartScreen extends React.Component {
   }
 
   componentDidMount() {
-    //validate token
-    //this.validateUser();
+    //refresh token
+    if (this.props.user.token) { this.refreshUser(); }
   }
 
-  validateUser = async () => {
-    const response = await validateUserAPI(this.props.user.token);
+  refreshUser = async () => {
+    let message = '. For your safety, please log out and log back in.'
+    let response = await refreshUserAPI(this.props.user.token);
     console.log(response);
+    if (response.success === false) {
+      this.props.loginUserFailure(response.data.message + message);
+    } 
   }
 
   handleStartClick() {
@@ -67,6 +72,7 @@ class StartScreen extends React.Component {
       return (
         <View style={styles.start}>        
           <Text style={{fontSize: 40}}>BOX GOD</Text>
+          {this.props.user.error && <Text>{this.props.user.error}</Text>}
           {this.props.user.token
             ? <UserInfo />
             : <Login />
@@ -88,4 +94,4 @@ const mapStateToProps = state => ({
   user: getUser(state),
 });
 
-export default connect(mapStateToProps, {getUser})(StartScreen);
+export default connect(mapStateToProps, {getUser, loginUserFailure})(StartScreen);

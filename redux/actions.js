@@ -1,7 +1,7 @@
 import { 
   SET_POINTS,
   SET_LIVES,
-  LOGIN_USER,
+  USER_ACTION,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
   LOGOUT_USER_SUCCESS,
@@ -9,8 +9,8 @@ import {
 } from "./actionTypes";
 import {loginUserAPI, logoutUserAPI, validateUserAPI} from '../beogAPI/beogAPI';
 
-export const loginUser = () => ({
-  type: LOGIN_USER,
+export const userAction = () => ({
+  type: USER_ACTION,
 });
 
 export const loginUserSuccess = (user) => ({
@@ -33,7 +33,7 @@ export const logoutUserFailure = (error) => ({
 });
 
 export const loginUserBeog = (userDets) => async dispatch => {
-  dispatch(loginUser());
+  dispatch(userAction());
 
   try {
     const loginResponse = await loginUserAPI(userDets);
@@ -62,6 +62,8 @@ export const validateUserBeog = (jwt) => async dispatch => {
 }
 
 export const logoutUserBeog = (token) => async dispatch => {
+  dispatch(userAction());
+  
   try {
     const logoutResponse = await logoutUserAPI(token);
     dispatch(logoutUserSuccess());

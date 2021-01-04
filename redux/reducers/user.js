@@ -1,5 +1,5 @@
 import { 
-  LOGIN_USER,
+  USER_ACTION,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
   LOGOUT_USER_SUCCESS,
@@ -17,7 +17,7 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER:
+    case USER_ACTION:
       return {
           ...state, 
           loading: true,
@@ -29,6 +29,7 @@ const user = (state = initialState, action) => {
           email: action.payload.user.user_email,
           displayname: action.payload.user.display_name,
           token: action.payload.jwt[0].token,
+          error: null,
           loading: false,
       };
     case LOGIN_USER_FAILURE:
@@ -44,7 +45,8 @@ const user = (state = initialState, action) => {
           email: "",
           displayname: "",
           token: "",
-          error: "",
+          error: null,
+          loading: false,
       };
     case LOGOUT_USER_FAILURE:
       return {
@@ -54,6 +56,7 @@ const user = (state = initialState, action) => {
           displayname: "",
           token: "",
           error: action.payload,
+          loading: false,
       };
     default:
       return state;

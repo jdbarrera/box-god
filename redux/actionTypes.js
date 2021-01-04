@@ -1,6 +1,6 @@
 export const SET_POINTS = 'SET_POINTS';
 export const SET_LIVES = 'SET_LIVES';
-export const LOGIN_USER = 'LOGIN_USER';
+export const USER_ACTION = 'USER_ACTION';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
 export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
