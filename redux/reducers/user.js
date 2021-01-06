@@ -1,5 +1,6 @@
 import { 
   USER_ACTION,
+  REFRESH_USER,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
   LOGOUT_USER_SUCCESS,
@@ -22,6 +23,11 @@ const user = (state = initialState, action) => {
           ...state, 
           loading: true,
       };
+    case REFRESH_USER:
+      return {
+          ...state, 
+          token: action.payload,
+      };  
     case LOGIN_USER_SUCCESS:
       return {
           ...state,

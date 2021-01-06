@@ -3,10 +3,9 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import Game from '../Game';
 import {connect} from 'react-redux';
 import {getUser} from '../redux/selectors';
-import {loginUserFailure} from '../redux/actions';
+import {loginUserFailure, getHighScoreBeog, refreshUserBeog} from '../redux/actions';
 import Login from './Login';
 import UserInfo from './UserInfo';
-import { refreshUserAPI } from '../beogAPI/beogAPI';
 
 const styles = StyleSheet.create({
 
@@ -39,16 +38,14 @@ class StartScreen extends React.Component {
 
   componentDidMount() {
     //refresh token
-    if (this.props.user.token) { this.refreshUser(); }
+    if (this.props.user.token) { 
+      this.refreshUser(); 
+      this.props.getHighScoreBeog(this.props.user.token);
+    }
   }
 
   refreshUser = async () => {
-    let message = '. For your safety, please log out and log back in.'
-    let response = await refreshUserAPI(this.props.user.token);
-    console.log(response);
-    if (response.success === false) {
-      this.props.loginUserFailure(response.data.message + message);
-    } 
+    this.props.refreshUserBeog(this.props.user.token);
   }
 
   handleStartClick() {
@@ -94,4 +91,6 @@ const mapStateToProps = state => ({
   user: getUser(state),
 });
 
-export default connect(mapStateToProps, {getUser, loginUserFailure})(StartScreen);
+export default connect(mapStateToProps, {
+  getUser, loginUserFailure, getHighScoreBeog, refreshUserBeog
+})(StartScreen);

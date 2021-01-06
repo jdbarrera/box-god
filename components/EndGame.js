@@ -1,29 +1,39 @@
-import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import PropTypes from 'prop-types';
-import Constants from 'expo-constants';
-
-import ControlCenter from './ControlCenter'
-import ScoreView from './ScoreView'
+import { connect } from 'react-redux';
+import { uploadHighScoreBeog, getHighScoreBeog } from '../redux/actions';
+import { getUser, getScore } from '../redux/selectors';
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: '#000000',
-    opacity: 0.5,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     position: 'absolute',
-    top: Constants.statusBarHeight,
+    top: 0,
     bottom: 0,
     left: 0,
     right: 0,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gameInfoOverlay: {
+    backgroundColor: 'rgba(255,255,255,1)',
+    padding: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   endGameText: {
-    color: '#ffffff',
+    color: '#000000',    
     fontSize: 24,
     paddingTop: 40,
   },
+  scoreText: {
+    color: '#000000',
+    fontSize: 24,
+    paddingBottom: 10,
+  },
   highScoreText: {
-    color: '#ffffff',
+    color: '#000000',
     fontSize: 24,
     paddingBottom: 10,
   },
@@ -35,24 +45,44 @@ const styles = StyleSheet.create({
 });
 
 const EndGame = (props) => {
+
+  const uploadScore = async () => {
+    if (props.score.points > props.score.hiScore) {
+      props.uploadHighScoreBeog(props.score.points, props.user.token);
+    }    
+  }
+
+  useEffect(() => {
+    uploadScore();
+  }, []);
     
     return (
       <View style={styles.overlay}>
-          <Text style={styles.endGameText}>Game Over</Text>
-          <Text style={styles.highScoreText}>High Score: {props.highScore}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={props.restart}
-          >
-            <Text>Restart</Text>
-          </TouchableOpacity>
+        <View style={styles.gameInfoOverlay}>
+            <Text style={styles.endGameText}>Game Over</Text>
+            <Text style={styles.scoreText}>Score: {props.currentScore}</Text>
+            {props.score.loading
+            ? <ActivityIndicator size="large" color="#00ff00" />
+            : <Text style={styles.highScoreText}>Your Current HiScore: {props.score.hiScore}</Text>}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={props.restart}
+            >
+              <Text>Restart</Text>
+            </TouchableOpacity>
+        </View>    
       </View>
     );
 }
 
 EndGame.propTypes = {
-    score: PropTypes.number,
+    currentScore: PropTypes.number,
     restart: PropTypes.func,
 }
 
-export default EndGame;
+const mapStateToProps = state => ({
+  user: getUser(state),
+  score: getScore(state),
+});
+
+export default connect(mapStateToProps, {uploadHighScoreBeog, getHighScoreBeog, getScore})(EndGame);

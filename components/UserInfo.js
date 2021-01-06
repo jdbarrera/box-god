@@ -1,9 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator } from "react-native";
 import { connect } from 'react-redux';
-import { logoutUserBeog } from '../redux/actions';
-import { getUser } from '../redux/selectors';
-import { userMeAPI } from '../beogAPI/beogAPI';
+import { logoutUserBeog, getHighScoreBeog } from '../redux/actions';
+import { getUser, getScore } from '../redux/selectors';
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -25,11 +24,6 @@ const UserInfo = (props) => {
   const logout = async () => {
     props.logoutUserBeog(props.user.token);
   }
-
-  const userME = async () => {
-    let response = await userMeAPI(props.user.token);
-    console.log(response);
-  }
     
     return (
       <View style={styles.userInfo}>
@@ -37,13 +31,13 @@ const UserInfo = (props) => {
           ? <ActivityIndicator size="large" color="#00ff00" />
           : <Text style={styles.userName}>Welcome: {props.user.displayname}</Text>}
         <Button title="Logout" onPress={logout} />
-        <Button title="Test User/me API" onPress={userME} />
       </View>
     );
 }
 
 const mapStateToProps = state => ({
   user: getUser(state),
+  score: getScore(state),
 });
 
-export default connect(mapStateToProps, {logoutUserBeog})(UserInfo);
+export default connect(mapStateToProps, {logoutUserBeog, getHighScoreBeog, getScore})(UserInfo);

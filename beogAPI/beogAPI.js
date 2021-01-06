@@ -48,21 +48,42 @@ export const refreshUserAPI = async (token) => {
         Authorization: "Bearer " + token
       }
     });
-    return response;
+    console.log(response);
+    return response.data.data.jwt;
   } catch (error) {
     return error.response.data;
   }  
 };
 
-export const userMeAPI = async (token) => {
+export const getHighScoreAPI = async (token) => {
   try {
     const response = await axios.get(userMe, {
       headers: {
         Authorization: "Bearer " + token
       }
     });
-    return response;
+    return response.data.meta.boxgod_score;
   } catch (error) {
     return error.response.data;
   }  
+};
+
+export const updateHighScoreAPI = async (score, token) => {
+  try {
+    const response = await axios.post(userMe, 
+      {
+        meta: {
+          boxgod_score: score
+        }
+      }, 
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      }
+    );
+    return response.data.meta.boxgod_score;
+  } catch (error) {
+    return error.response.data;
+  }   
 };

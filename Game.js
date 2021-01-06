@@ -76,7 +76,7 @@ const Game = ( props ) => {
     {props.score.lives <= 0 && 
       <EndGame 
         restart={restart} 
-        highScore={props.score.points} />}
+        currentScore={props.score.points} />}
       <GameHeader 
         score={props.score}
         startGame={startGame}
