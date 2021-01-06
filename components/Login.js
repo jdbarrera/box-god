@@ -1,16 +1,11 @@
-import React, { Component, useState, useEffect } from "react";
-import { View, Button, StyleSheet, TextInput, Text } from "react-native";
-import PropTypes from 'prop-types';
-import Constants from 'expo-constants';
-
-import ControlCenter from './ControlCenter'
-import ScoreView from './ScoreView'
-
-import {loginUserAPI} from '../beogAPI/beogAPI'
+import React, { useState } from "react";
+import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator } from "react-native";
+import { connect } from 'react-redux';
+import { loginUserBeog } from '../redux/actions';
+import { getUser } from '../redux/selectors';
 
 const styles = StyleSheet.create({
   login: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -33,37 +28,37 @@ const Login = (props) => {
       email: email,
       password: password
     }
-    try {
-      const response = await loginUserAPI(user);
-      console.log(response);
-      props.setIsLoggedIn(true);
-    } catch (error) {
-      console.log(error);
-    }
-    
+    props.loginUserBeog(user); 
   }
-
-  useEffect(() => {
-    //validate credentials
-  }, []); 
     
-    return (
-      <View style={styles.login}>
-        <TextInput
-          placeholder="email"
-          value={email}
-          onChangeText={handleUsernameUpdate}
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={{paddingTop: 20}}
-          placeholder="password"
-          value={password}
-          onChangeText={handlePasswordUpdate}
-        />
-        <Button title="Press to Log In" onPress={() => props.setIsLoggedIn(true)} />
-      </View>
+    return (      
+      <View style={styles.login}> 
+        {props.user.loading
+          ? <ActivityIndicator size="large" color="#00ff00" />
+          : <View style={styles.login}>
+              <Text>Login</Text>
+              <TextInput
+                placeholder="email"
+                value={email}
+                onChangeText={handleUsernameUpdate}
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={{paddingTop: 20}}
+                placeholder="password"
+                value={password}
+                onChangeText={handlePasswordUpdate}
+              />
+              <Button title="Press to Log In" onPress={login} />
+            </View>
+        }
+      </View>  
+      
     );
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  user: getUser(state),
+});
+
+export default connect(mapStateToProps, { getUser, loginUserBeog })(Login);

@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, StatusBar, ScrollView, Button, Alert, State } from 'react-native';
-import Constants from 'expo-constants';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import Game from '../Game';
+import {connect} from 'react-redux';
+import {getUser} from '../redux/selectors';
+import {loginUserFailure, getHighScoreBeog, refreshUserBeog} from '../redux/actions';
+import Login from './Login';
+import UserInfo from './UserInfo';
 
 const styles = StyleSheet.create({
 
@@ -15,7 +19,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   companyTags: {
-    paddingTop: 120,
+    paddingTop: 100,
     fontSize: 20,
   }
 });
@@ -25,34 +29,68 @@ class StartScreen extends React.Component {
     super(props);
 
     this.state = {
-      isPlaying: false
+      isPlaying: false,
+      isLoggedIn: false,
     };
 
     this.handleStartClick = this.handleStartClick.bind(this);
   }
 
+  componentDidMount() {
+    //refresh token
+    if (this.props.user.token) { 
+      this.refreshUser(); 
+      this.props.getHighScoreBeog(this.props.user.token);
+    }
+  }
+
+  refreshUser = async () => {
+    this.props.refreshUserBeog(this.props.user.token);
+  }
+
   handleStartClick() {
-    this.setState({isPlaying: true});
-    console.log(this.state.isPlaying);
+    this.setState(prevState => ({
+      ...prevState,
+      isPlaying: true,
+    }))
+  }
+
+  setIsLoggedIn = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isLoggedIn: true,
+    }))
   }
 
   render() {
     const isPlaying = this.state.isPlaying;
+    console.log(this.props.user);
     if (!isPlaying) {
-    return (
-      <View style={styles.start}>        
-        <Text style={{fontSize: 40}}>BOX GOD</Text>
-        <Button
-          title="Start"
-          onPress={this.handleStartClick}
-        />
-        <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
-      </View>
-    );
-  } else {
-    return ( <Game /> );
-  }
+      return (
+        <View style={styles.start}>        
+          <Text style={{fontSize: 40}}>BOX GOD</Text>
+          {this.props.user.error && <Text>{this.props.user.error}</Text>}
+          {this.props.user.token
+            ? <UserInfo />
+            : <Login />
+          }
+          <Button
+            title="Start"
+            onPress={this.handleStartClick}
+          />
+          <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
+        </View>
+      );
+    } else {
+      return ( <Game /> );
+    }
   }
 }
 
-export default StartScreen;
+const mapStateToProps = state => ({
+  user: getUser(state),
+});
+
+export default connect(mapStateToProps, {
+  getUser, loginUserFailure, getHighScoreBeog, refreshUserBeog
+})(StartScreen);
