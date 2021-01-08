@@ -7,6 +7,7 @@ import { GameEngine } from "react-native-game-engine";
 import Box from '../renderers/Box';
 import Circle from '../renderers/Circle';
 import CloudLine from '../renderers/CloudLine';
+import Platform from '../renderers/Platform';
 
 import Physics from '../systems/physics';
 import {CreateBox, BoxCollisions} from '../systems/Boxes';
@@ -65,8 +66,7 @@ const levelOneEntities = (game) => {
     platform1: {
       body: platform1,
       size: [width / 3, boxSize / 2],
-      color: "red",
-      renderer: Box,
+      renderer: Platform,
     },
     cloudLine: {
       size: [width, boxSize / 4],

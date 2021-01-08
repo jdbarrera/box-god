@@ -18,16 +18,6 @@ const CloudLine = (props) => {
     const cloudWidth = styles.cloud.width - 10;
     
     return (
-      /*<View
-        style={{
-            position: "absolute",
-            left: x,
-            top: y,
-            width: width,
-            height: height,
-            backgroundColor:  props.color || "pink",
-            zIndex: 2,
-          }}/>*/
       <View style={{position: 'absolute', zIndex: 2}}>    
         <View 
           style={{

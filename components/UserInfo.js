@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   userName: {
+    color: '#ffffff',
+    fontSize: 20,
+  },
+  text: {
+    color: '#ffffff',
     fontSize: 20,
   }
 });
