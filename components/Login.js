@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator } from "react-native";
+import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { connect } from 'react-redux';
 import { loginUserBeog } from '../redux/actions';
 import { getUser } from '../redux/selectors';
@@ -9,6 +9,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#3CB371",
+    paddingTop: 10, paddingBottom: 10,
+    paddingLeft: 30, paddingRight: 30,
+    borderRadius: 30,
+  },
+  text: {
+    color: '#ffffff',
+    fontSize: 20,
+  },
+  border: {
+    marginTop: 20,
+    marginBottom: 20,
+  }
 });
 
 const Login = (props) => {
@@ -36,7 +51,7 @@ const Login = (props) => {
         {props.user.loading
           ? <ActivityIndicator size="large" color="#00ff00" />
           : <View style={styles.login}>
-              <Text>Login</Text>
+              <Text style={styles.text}>Login</Text>
               <TextInput
                 placeholder="email"
                 value={email}
@@ -49,7 +64,13 @@ const Login = (props) => {
                 value={password}
                 onChangeText={handlePasswordUpdate}
               />
-              <Button title="Press to Log In" onPress={login} />
+              <TouchableOpacity style={styles.button} onPress={login} >
+                <Text style={styles.text}>Login</Text>
+              </TouchableOpacity>
+              <Text style={[styles.text, styles.border]}>-------- OR --------</Text>
+              <TouchableOpacity style={styles.button} onPress={props.handleStart} >
+                <Text style={styles.text}>Play as Guest</Text>
+              </TouchableOpacity>
             </View>
         }
       </View>  

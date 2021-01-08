@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { uploadHighScoreBeog, getHighScoreBeog } from '../redux/actions';
 import { getUser, getScore } from '../redux/selectors';
+import EndScore from './EndScore';
 
 const styles = StyleSheet.create({
   overlay: {
@@ -63,7 +64,7 @@ const EndGame = (props) => {
             <Text style={styles.scoreText}>Score: {props.currentScore}</Text>
             {props.score.loading
             ? <ActivityIndicator size="large" color="#00ff00" />
-            : <Text style={styles.highScoreText}>Your Current HiScore: {props.score.hiScore}</Text>}
+            : <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/> }
             <TouchableOpacity
               style={styles.button}
               onPress={props.restart}

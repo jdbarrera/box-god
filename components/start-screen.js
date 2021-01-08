@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Button, ImageBackground, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 import Game from '../Game';
 import {connect} from 'react-redux';
@@ -59,13 +59,9 @@ class StartScreen extends React.Component {
             <Text style={styles.headerText}>BOX GOD</Text>
             {this.props.user.error && <Text style={styles.text}>{this.props.user.error}</Text>}
             {this.props.user.token
-              ? <UserInfo />
-              : <Login />
+              ? <UserInfo handleStart={this.handleStartClick} />
+              : <Login handleStart={this.handleStartClick} />
             }
-            <Button
-              title="Start"
-              onPress={this.handleStartClick}
-            />
             <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
           </ImageBackground>  
         </View>
@@ -96,6 +92,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#ffffff',
     fontSize: 40,
+    marginTop: 230,
   },
   text: {
     color: '#ffffff',
@@ -105,7 +102,14 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     paddingTop: 100,
     fontSize: 20,
-  }
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#3CB371",
+    paddingTop: 10, paddingBottom: 10,
+    paddingLeft: 30, paddingRight: 30,
+    borderRadius: 30,
+  },
 });
 
 const mapStateToProps = state => ({
