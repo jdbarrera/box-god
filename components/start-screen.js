@@ -9,7 +9,6 @@ import Login from './Login';
 import UserInfo from './UserInfo';
 
 const backgroundImage = require('../assets/Full-background.png');
-const { width, height } = Dimensions.get("screen");
 
 class StartScreen extends React.Component {
   constructor(props) {
@@ -39,7 +38,14 @@ class StartScreen extends React.Component {
     this.setState(prevState => ({
       ...prevState,
       isPlaying: true,
-    }))
+    }));
+  }
+
+  returnHome = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isPlaying: false,
+    }));
   }
 
   setIsLoggedIn = () => {
@@ -55,19 +61,21 @@ class StartScreen extends React.Component {
     if (!isPlaying) {
       return (
         <View style={styles.container}>
-          <ImageBackground source={backgroundImage} style={styles.backgroundImage}>      
-            <Text style={styles.headerText}>BOX GOD</Text>
-            {this.props.user.error && <Text style={styles.text}>{this.props.user.error}</Text>}
-            {this.props.user.token
-              ? <UserInfo handleStart={this.handleStartClick} />
-              : <Login handleStart={this.handleStartClick} />
-            }
-            <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
+          <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+            <View style={styles.overlay}>   
+              <Text style={styles.headerText}>BOX GOD</Text>
+              {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
+              {this.props.user.token
+                ? <UserInfo handleStart={this.handleStartClick} />
+                : <Login handleStart={this.handleStartClick} />
+              }
+              <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
+            </View>  
           </ImageBackground>  
         </View>
       );
     } else {
-      return ( <Game /> );
+      return ( <Game returnHome={this.returnHome} /> );
     }
   }
 }
@@ -92,16 +100,20 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#ffffff',
     fontSize: 40,
-    marginTop: 230,
   },
   text: {
     color: '#ffffff',
     fontSize: 20,
   },
+  errorText: {
+    color: '#ff2400',
+    fontSize: 16,
+  },
   companyTags: {
+    position: 'absolute',
     color: '#ffffff',
-    paddingTop: 100,
     fontSize: 20,
+    bottom: 40,
   },
   button: {
     alignItems: "center",
@@ -109,6 +121,16 @@ const styles = StyleSheet.create({
     paddingTop: 10, paddingBottom: 10,
     paddingLeft: 30, paddingRight: 30,
     borderRadius: 30,
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

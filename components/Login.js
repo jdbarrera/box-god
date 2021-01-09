@@ -23,6 +23,13 @@ const styles = StyleSheet.create({
   border: {
     marginTop: 20,
     marginBottom: 20,
+  },
+  input: {
+    color: '#ffffff',
+    borderColor: '#ffffff',
+    borderBottomWidth: 2,
+    margin: 20,
+    width: 150,
   }
 });
 
@@ -54,15 +61,20 @@ const Login = (props) => {
               <Text style={styles.text}>Login</Text>
               <TextInput
                 placeholder="email"
+                placeholderTextColor='#ffffff'
                 value={email}
                 onChangeText={handleUsernameUpdate}
                 autoCapitalize="none"
+                style={styles.input}
               />
               <TextInput
                 style={{paddingTop: 20}}
                 placeholder="password"
+                placeholderTextColor='#ffffff'
                 value={password}
                 onChangeText={handlePasswordUpdate}
+                secureTextEntry={true}
+                style={styles.input}
               />
               <TouchableOpacity style={styles.button} onPress={login} >
                 <Text style={styles.text}>Login</Text>

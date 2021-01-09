@@ -6,8 +6,8 @@ import { uploadHighScoreBeog, getHighScoreBeog } from '../redux/actions';
 import { getUser, getScore } from '../redux/selectors';
 
 const styles = StyleSheet.create({
-  highScoreText: {
-    color: '#000000',
+  text: {
+    color: '#ffffff',
     fontSize: 24,
     paddingBottom: 10,
   },
@@ -17,13 +17,13 @@ const EndGame = (props) => {
     if (props.userToken) {
         return (
             <View>
-              <Text style={styles.highScoreText}>Your Current HiScore: {props.userHiScore}</Text>
+              <Text style={styles.text}>Your Current HiScore: {props.userHiScore}</Text>
             </View>    
           );
     } else {
         return (
             <View>
-              <Text style={styles.highScoreText}>Please Login to track High Score.</Text>
+              <Text style={styles.text}>Please Login to track High Score.</Text>
             </View>    
           );
     }

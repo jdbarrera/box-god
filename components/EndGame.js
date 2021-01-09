@@ -17,32 +17,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  gameInfoOverlay: {
-    backgroundColor: 'rgba(255,255,255,1)',
-    padding: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   endGameText: {
-    color: '#000000',    
+    color: '#ffffff',    
     fontSize: 24,
     paddingTop: 40,
   },
   scoreText: {
-    color: '#000000',
+    color: '#ffffff',
     fontSize: 24,
     paddingBottom: 10,
   },
   highScoreText: {
-    color: '#000000',
+    color: '#ffffff',
     fontSize: 24,
     paddingBottom: 10,
   },
+  text: {
+    color: '#ffffff',
+    fontSize: 20,
+  },
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10
+    backgroundColor: "#3CB371",
+    paddingTop: 10, paddingBottom: 10,
+    paddingLeft: 30, paddingRight: 30,
+    borderRadius: 30,
   },
+  border: {
+    marginTop: 20,
+    marginBottom: 20,
+  }
 });
 
 const EndGame = (props) => {
@@ -59,19 +63,23 @@ const EndGame = (props) => {
     
     return (
       <View style={styles.overlay}>
-        <View style={styles.gameInfoOverlay}>
-            <Text style={styles.endGameText}>Game Over</Text>
-            <Text style={styles.scoreText}>Score: {props.currentScore}</Text>
-            {props.score.loading
-            ? <ActivityIndicator size="large" color="#00ff00" />
-            : <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/> }
-            <TouchableOpacity
-              style={styles.button}
-              onPress={props.restart}
-            >
-              <Text>Restart</Text>
-            </TouchableOpacity>
-        </View>    
+        <Text style={styles.endGameText}>Game Over</Text>
+        <Text style={styles.scoreText}>Score: {props.currentScore}</Text>
+        {props.score.loading
+        ? <ActivityIndicator size="large" color="#00ff00" />
+        : <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/> }
+        <TouchableOpacity
+          style={[styles.button, styles.border]}
+          onPress={props.restart}
+        >
+          <Text style={styles.text} >Restart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={props.returnToHome}
+        >
+          <Text style={styles.text} >Return to Home Screen</Text>
+        </TouchableOpacity>
       </View>
     );
 }

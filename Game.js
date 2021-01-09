@@ -34,6 +34,11 @@ const Game = ( props ) => {
     game.current.swap(getEntities(1, game));
   }
 
+  const returnToHome = () => {
+    restart();
+    props.returnHome();
+  }
+
   const onEvent = (e) => {
     switch(e.type) {
       case 'ADD_POINT':
@@ -70,7 +75,8 @@ const Game = ( props ) => {
         {props.score.lives <= 0 && 
           <EndGame 
             restart={restart} 
-            currentScore={props.score.points} />}
+            currentScore={props.score.points} 
+            returnToHome={returnToHome} />}
           <GameHeader 
             score={props.score}
             startGame={startGame}
