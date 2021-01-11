@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Button, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground } from 'react-native';
 import Constants from 'expo-constants';
 import Game from '../Game';
 import {connect} from 'react-redux';
@@ -26,7 +26,6 @@ class StartScreen extends React.Component {
     //refresh token
     if (this.props.user.token) { 
       this.refreshUser(); 
-      this.props.getHighScoreBeog(this.props.user.token);
     }
   }
 

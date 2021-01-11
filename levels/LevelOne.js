@@ -33,7 +33,7 @@ const levelOneEntities = (game) => {
   });
 
   //create floor
-  const floor = Matter.Bodies.rectangle(width / 2, height - boxSize, width * 2, boxSize, { isStatic: true });
+  const floor = Matter.Bodies.rectangle(width / 2, height - boxSize, width * 2, boxSize * 2, { isStatic: true });
 
   //create platforms
   const platform1 = Matter.Bodies.rectangle(width / 2, height / 1.5, width / 3, boxSize / 2, { isStatic: true });
@@ -59,7 +59,7 @@ const levelOneEntities = (game) => {
     },
     floor: { 
       body: floor, 
-      size: [width, boxSize], 
+      size: [width, boxSize * 2], 
       color: "green", 
       renderer: Box, 
     },

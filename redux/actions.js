@@ -63,12 +63,11 @@ export const loginUserBeog = (userDets) => async dispatch => {
 
   try {
     const loginResponse = await loginUserAPI(userDets);
-    console.log(loginResponse);
     if (loginResponse.success === false) {
-      console.log('fail');
       dispatch(loginUserFailure(loginResponse.data.message));          
     } else {
       const jwt = loginResponse.data.data.jwt;
+      dispatch(getHighScoreBeog(jwt));
       dispatch(validateUserBeog(jwt));  
     }    
   } catch (error) {
@@ -80,7 +79,6 @@ export const validateUserBeog = (jwt) => async dispatch => {
   try {
     const userResponse = await validateUserAPI(jwt);
     const user = userResponse.data.data;
-    console.log('validatesuccess');
     dispatch(loginUserSuccess(user));
   } catch (error) {
     dispatch(loginUserFailure(error));
@@ -90,7 +88,7 @@ export const validateUserBeog = (jwt) => async dispatch => {
 export const refreshUserBeog = (jwt) => async dispatch => {
   try {
     const newToken = await refreshUserAPI(jwt);
-    console.log(newToken);
+    dispatch(getHighScoreBeog(newToken));
     dispatch(refreshUser(newToken));
   } catch (error) {
     dispatch(loginUserFailure(error));
@@ -124,7 +122,6 @@ export const uploadHighScoreBeog = (score, token) => async dispatch => {
   
   try {
     const newScore = await updateHighScoreAPI(score, token);
-    console.log(newScore);
     dispatch(setHighScore(newScore));
   } catch (error) {
     dispatch(scoreError(error));

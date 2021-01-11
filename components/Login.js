@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { connect } from 'react-redux';
-import { loginUserBeog } from '../redux/actions';
+import { loginUserBeog, getHighScoreBeog } from '../redux/actions';
 import { getUser } from '../redux/selectors';
 
 const styles = StyleSheet.create({
@@ -50,7 +50,7 @@ const Login = (props) => {
       email: email,
       password: password
     }
-    props.loginUserBeog(user); 
+    props.loginUserBeog(user);
   }
     
     return (      
@@ -94,4 +94,4 @@ const mapStateToProps = state => ({
   user: getUser(state),
 });
 
-export default connect(mapStateToProps, { getUser, loginUserBeog })(Login);
+export default connect(mapStateToProps, { getUser, loginUserBeog, getHighScoreBeog })(Login);

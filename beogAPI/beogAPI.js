@@ -48,7 +48,6 @@ export const refreshUserAPI = async (token) => {
         Authorization: "Bearer " + token
       }
     });
-    console.log(response);
     return response.data.data.jwt;
   } catch (error) {
     return error.response.data;
