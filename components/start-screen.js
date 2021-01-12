@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, ImageBackground } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import Game from '../Game';
 import {connect} from 'react-redux';
@@ -7,8 +7,10 @@ import {getUser} from '../redux/selectors';
 import {loginUserFailure, getHighScoreBeog, refreshUserBeog} from '../redux/actions';
 import Login from './Login';
 import UserInfo from './UserInfo';
+import Bezos from '../renderers/Bezos';
 
 const backgroundImage = require('../assets/Full-background.png');
+const { width, height } = Dimensions.get("screen");
 
 class StartScreen extends React.Component {
   constructor(props) {
@@ -61,6 +63,7 @@ class StartScreen extends React.Component {
       return (
         <View style={styles.container}>
           <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+            <Bezos size={[width/2, height/4]} xPos={width/2} yPos={height/5} />
             <View style={styles.overlay}>   
               <Text style={styles.headerText}>BOX GOD</Text>
               {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
