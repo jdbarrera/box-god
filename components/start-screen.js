@@ -62,9 +62,9 @@ class StartScreen extends React.Component {
     if (!isPlaying) {
       return (
         <View style={styles.container}>
-          <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-            <Bezos size={[width/2, height/4]} xPos={width/2} yPos={height/5} />
-            <View style={styles.overlay}>   
+          <ImageBackground source={backgroundImage} style={styles.backgroundImage}>            
+            <View style={styles.overlay}>
+              <Bezos size={[width/3, height/4]} />   
               <Text style={styles.headerText}>BOX GOD</Text>
               {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
               {this.props.user.token
