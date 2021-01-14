@@ -5,6 +5,8 @@ const validateUser = "https://be-og.com/wp-json/simple-jwt-login/v1/auth/validat
 const revokeUser = 'https://be-og.com/wp-json/simple-jwt-login/v1/auth/revoke';
 const refreshUser = 'https://be-og.com/wp-json/simple-jwt-login/v1/auth/refresh';
 const userMe = 'https://be-og.com/wp-json/wp/v2/users/me';
+const createUser = 'https://be-og.com/wp-json/simple-jwt-login/v1/users';
+
 
 export const loginUserAPI = async (userDets) => {
   try {
@@ -49,6 +51,15 @@ export const refreshUserAPI = async (token) => {
       }
     });
     return response.data.data.jwt;
+  } catch (error) {
+    return error.response.data;
+  }  
+};
+
+export const createUserAPI = async (user) => {
+  try {
+    const response = await axios.post(createUser, user);
+    return response;
   } catch (error) {
     return error.response.data;
   }  

@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#3CB371",
     paddingTop: 10, paddingBottom: 10,
-    paddingLeft: 30, paddingRight: 30,
     borderRadius: 30,
+    width: 200,
   },
   border: {
     marginTop: 20,
@@ -31,11 +31,6 @@ const styles = StyleSheet.create({
 });
 
 const UserInfo = (props) => {
-  const [firstName, setFirstName] = useState('');
-
-  const handleNameUpdate = name => {
-    setFirstName(name);
-  };
 
   const logout = async () => {
     props.logoutUserBeog(props.user.token);
@@ -45,7 +40,7 @@ const UserInfo = (props) => {
       <View style={styles.userInfo}>
         {props.user.loading
           ? <ActivityIndicator size="large" color="#00ff00" />
-          : <View>
+          : <View style={styles.userInfo}>
               <Text style={styles.userName}>Welcome: {props.user.displayname}</Text>
               <TouchableOpacity style={[styles.button, styles.border]} onPress={props.handleStart} >
                 <Text style={styles.text}>Start!</Text>

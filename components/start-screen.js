@@ -8,6 +8,7 @@ import {loginUserFailure, getHighScoreBeog, refreshUserBeog} from '../redux/acti
 import Login from './Login';
 import UserInfo from './UserInfo';
 import Bezos from '../renderers/Bezos';
+import CreateAccount from './CreateAccount';
 
 const backgroundImage = require('../assets/Full-background.png');
 const { width, height } = Dimensions.get("screen");
@@ -19,9 +20,12 @@ class StartScreen extends React.Component {
     this.state = {
       isPlaying: false,
       isLoggedIn: false,
+      isCreateAccount: false,
     };
 
     this.handleStartClick = this.handleStartClick.bind(this);
+    this.handleCreateAccount = this.handleCreateAccount.bind(this);
+    this.returnHome = this.returnHome.bind(this);
   }
 
   componentDidMount() {
@@ -42,10 +46,18 @@ class StartScreen extends React.Component {
     }));
   }
 
+  handleCreateAccount() {
+    this.setState(prevState => ({
+      ...prevState,
+      isCreateAccount: true,
+    }));
+  }
+
   returnHome = () => {
     this.setState(prevState => ({
       ...prevState,
       isPlaying: false,
+      isCreateAccount: false,
     }));
   }
 
@@ -58,24 +70,41 @@ class StartScreen extends React.Component {
 
   render() {
     const isPlaying = this.state.isPlaying;
+    const isCreateAccount = this.state.isCreateAccount;
     console.log(this.props.user);
+
     if (!isPlaying) {
-      return (
-        <View style={styles.container}>
-          <ImageBackground source={backgroundImage} style={styles.backgroundImage}>            
-            <View style={styles.overlay}>
-              <Bezos size={[width/3, height/4]} />   
-              <Text style={styles.headerText}>BOX GOD</Text>
-              {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
-              {this.props.user.token
-                ? <UserInfo handleStart={this.handleStartClick} />
-                : <Login handleStart={this.handleStartClick} />
-              }
-              <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
-            </View>  
-          </ImageBackground>  
-        </View>
-      );
+      if (isCreateAccount && !this.props.user.token) {
+        return (
+          <View style={styles.container}>
+            <ImageBackground source={backgroundImage} style={styles.backgroundImage}>            
+              <View style={styles.overlay}>                
+                <Bezos size={[width/3, height/4]} />   
+                {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
+                <CreateAccount returnHome={this.returnHome} />
+                <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
+              </View>  
+            </ImageBackground>  
+          </View>          
+        )        
+      } else {
+        return (
+          <View style={styles.container}>
+            <ImageBackground source={backgroundImage} style={styles.backgroundImage}>            
+              <View style={styles.overlay}>
+                <Bezos size={[width/3, height/4]} />   
+                <Text style={styles.headerText}>BOX GOD</Text>
+                {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
+                {this.props.user.token
+                  ? <UserInfo handleStart={this.handleStartClick} />
+                  : <Login handleCreateAccount={this.handleCreateAccount} />
+                }
+                <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
+              </View>  
+            </ImageBackground>  
+          </View>
+        );
+      }      
     } else {
       return ( <Game returnHome={this.returnHome} /> );
     }
@@ -112,17 +141,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   companyTags: {
-    position: 'absolute',
+    paddingTop: 20,
     color: '#ffffff',
     fontSize: 20,
-    bottom: 40,
   },
   button: {
     alignItems: "center",
     backgroundColor: "#3CB371",
     paddingTop: 10, paddingBottom: 10,
-    paddingLeft: 30, paddingRight: 30,
     borderRadius: 30,
+    width: 200,
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',

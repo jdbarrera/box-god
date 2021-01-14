@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { connect } from 'react-redux';
-import { loginUserBeog, getHighScoreBeog } from '../redux/actions';
+import { createUserBeog } from '../redux/actions';
 import { getUser } from '../redux/selectors';
+
+const AUTH_KEY = 'SuperSpecialBeOG690';
 
 const styles = StyleSheet.create({
   login: {
@@ -33,24 +35,37 @@ const styles = StyleSheet.create({
   }
 });
 
-const Login = (props) => {
+const CreateAccount = (props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUsernameUpdate = username => {
-    setEmail(username);
+  const handleFirstNameUpdate = name => {
+    setFirstName(name);
+  };
+
+  const handleLastNameUpdate = name => {
+    setLastName(name);
+  };
+
+  const handleEmailUpdate = email => {
+    setEmail(email);
   };
 
   const handlePasswordUpdate = password => {
     setPassword(password);
   };
 
-  const login = async () => {
+  const createAccount = async () => {
     let user = {
       email: email,
-      password: password
+      password: password,
+      first_name: firstName,
+      last_name: lastName,
+      AUTH_KEY: AUTH_KEY,
     }
-    props.loginUserBeog(user);
+    props.createUserBeog(user);
   }
     
     return (      
@@ -58,12 +73,28 @@ const Login = (props) => {
         {props.user.loading
           ? <ActivityIndicator size="large" color="#00ff00" />
           : <View style={styles.login}>
-              <Text style={styles.text}>Login</Text>
+              <Text style={styles.text}>Create a BeOG Account</Text>
+              <TextInput
+                placeholder="First Name"
+                placeholderTextColor='#ffffff'
+                value={firstName}
+                onChangeText={handleFirstNameUpdate}
+                autoCapitalize="words"
+                style={styles.input}
+              />
+              <TextInput
+                placeholder="Last Name"
+                placeholderTextColor='#ffffff'
+                value={lastName}
+                onChangeText={handleLastNameUpdate}
+                autoCapitalize="words"
+                style={styles.input}
+              />
               <TextInput
                 placeholder="email"
                 placeholderTextColor='#ffffff'
                 value={email}
-                onChangeText={handleUsernameUpdate}
+                onChangeText={handleEmailUpdate}
                 autoCapitalize="none"
                 style={styles.input}
               />
@@ -76,12 +107,11 @@ const Login = (props) => {
                 secureTextEntry={true}
                 style={styles.input}
               />
-              <TouchableOpacity style={styles.button} onPress={login} >
-                <Text style={styles.text}>Login</Text>
+              <TouchableOpacity style={styles.button} onPress={createAccount} >
+                <Text style={styles.text}>Create BeOG Account</Text>
               </TouchableOpacity>
-              <Text style={[styles.text, styles.border]}>-------- OR --------</Text>
-              <TouchableOpacity style={styles.button} onPress={props.handleCreateAccount} >
-                <Text style={styles.text}>Create a BeOG Account</Text>
+              <TouchableOpacity style={[styles.button, styles.border]} onPress={props.returnHome} >
+                <Text style={styles.text}>Back</Text>
               </TouchableOpacity>
             </View>
         }
@@ -94,4 +124,4 @@ const mapStateToProps = state => ({
   user: getUser(state),
 });
 
-export default connect(mapStateToProps, { getUser, loginUserBeog, getHighScoreBeog })(Login);
+export default connect(mapStateToProps, { createUserBeog })(CreateAccount);

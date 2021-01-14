@@ -19,7 +19,9 @@ import {
   getHighScoreAPI,
   updateHighScoreAPI,
   refreshUserAPI,
+  createUserAPI,
 } from '../beogAPI/beogAPI';
+import { create } from "mathjs";
 
 export const userAction = () => ({
   type: USER_ACTION,
@@ -93,6 +95,26 @@ export const refreshUserBeog = (jwt) => async dispatch => {
   } catch (error) {
     dispatch(loginUserFailure(error));
   }
+}
+
+export const createUserBeog = (user) => async dispatch => {
+  dispatch(userAction());
+
+  try {
+    const createUserResponse = await createUserAPI(user);
+    if (createUserResponse.success === false) {
+      dispatch(loginUserFailure(createUserResponse.data.message));     
+    } else {
+      let newUser = {
+        email: user.email,
+        password: user.password,
+      }
+      dispatch(loginUserBeog(newUser));
+    }
+  } catch (error) {
+    dispatch(loginUserFailure(error));
+  }
+
 }
 
 export const logoutUserBeog = (token) => async dispatch => {

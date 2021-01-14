@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { uploadHighScoreBeog, getHighScoreBeog } from '../redux/actions';
 import { getUser, getScore } from '../redux/selectors';
 import EndScore from './EndScore';
+import Bezos from '../renderers/Bezos';
+
+const { width, height } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   overlay: {
@@ -63,6 +66,7 @@ const EndGame = (props) => {
     
     return (
       <View style={styles.overlay}>
+        <Bezos endFace={true} size={[width/3, height/4]} />
         <Text style={styles.endGameText}>Game Over</Text>
         <Text style={styles.scoreText}>Score: {props.currentScore}</Text>
         {props.score.loading

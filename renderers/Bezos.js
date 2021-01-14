@@ -1,8 +1,9 @@
 import React, { Component, useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import { View, Image, Text } from "react-native";
 import PropTypes from 'prop-types';
 
 const bezosImage = require('../assets/bezos-face.png');
+const bezosFaceMad = require('../assets/bezos-face-mad.png');
 let facePosCounter = 0;
 
 const Bezos = ( props ) => {
@@ -57,6 +58,16 @@ const Bezos = ( props ) => {
                     }} source={bezosImage} />
             </View>
         );
+    } else if (props.endFace) {
+        return (
+            <View>
+                <Image style={{
+                    height: height,
+                    width: width,
+                    resizeMode: 'contain',
+                    }} source={bezosFaceMad} />
+            </View>
+        );
     } else {
         if (facePos == 'tiltLeft') {
             return (    
@@ -79,15 +90,16 @@ const Bezos = ( props ) => {
                 </View>
             );
         } else {
-            <View>
+            return (
+                <View>
                     <Image style={{
                         height: height,
                         width: width,
                         resizeMode: 'contain',
                         }} source={bezosImage} />
                 </View>
-        }
-        
+            );            
+        }        
     }
     
     
