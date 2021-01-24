@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import * as WebBrowser from 'expo-web-browser';
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -23,7 +24,8 @@ const styles = StyleSheet.create({
   endGameText: {
     color: '#ffffff',    
     fontSize: 24,
-    paddingTop: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   scoreText: {
     color: '#ffffff',
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#3CB371",
     paddingTop: 10, paddingBottom: 10,
-    paddingLeft: 30, paddingRight: 30,
+    width: 250,
     borderRadius: 30,
   },
   border: {
@@ -63,6 +65,10 @@ const EndGame = (props) => {
   useEffect(() => {
     uploadScore();
   }, []);
+
+  const handleOpenWithWebBrowser = () => {
+    WebBrowser.openBrowserAsync('https://be-og.com/boxgod');
+  };
     
     return (
       <View style={styles.overlay}>
@@ -72,6 +78,12 @@ const EndGame = (props) => {
         {props.score.loading
         ? <ActivityIndicator size="large" color="#00ff00" />
         : <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/> }
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleOpenWithWebBrowser}
+        >
+          <Text style={styles.text} >View Scoreboard</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.border]}
           onPress={props.restart}

@@ -31,26 +31,33 @@ const styles = StyleSheet.create({
 });
 
 const UserInfo = (props) => {
-
   const logout = async () => {
     props.logoutUserBeog(props.user.token);
   }
-    
-    return (
-      <View style={styles.userInfo}>
-        {props.user.loading
-          ? <ActivityIndicator size="large" color="#00ff00" />
-          : <View style={styles.userInfo}>
-              <Text style={styles.userName}>Welcome: {props.user.displayname}</Text>
-              <TouchableOpacity style={[styles.button, styles.border]} onPress={props.handleStart} >
-                <Text style={styles.text}>Start!</Text>
-              </TouchableOpacity>
-            </View>}
-        <TouchableOpacity style={styles.button} onPress={logout} >
-          <Text style={styles.text}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    );
+
+  const howToPlay = () => {
+    props.handleHowToPlay(false);
+  }
+
+  return (
+    <View style={styles.userInfo}>
+      {props.user.loading
+        ? <ActivityIndicator size="large" color="#00ff00" />
+        : <View style={styles.userInfo}>
+            <Text style={styles.userName}>Welcome: {props.user.displayname}</Text>
+            <TouchableOpacity style={[styles.button, styles.border]} onPress={props.handleStart} >
+              <Text style={styles.text}>Start!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button]} onPress={howToPlay} >
+              <Text style={styles.text}>How To Play</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.border]} onPress={logout} >
+              <Text style={styles.text}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+      }        
+    </View>
+  );    
 }
 
 const mapStateToProps = state => ({

@@ -7,17 +7,21 @@ const styles = StyleSheet.create({
   scoreView: {
     alignItems: 'flex-start',
     flex: 0.5,
-    paddingTop: Constants.statusBarHeight / 2,
     paddingLeft: Constants.statusBarHeight / 2,
   },
+  text: {
+    color: '#000000',
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
 });
 
 const ScoreView = (props) => {
     
     return (
       <View style={styles.scoreView}>
-        <Text>Score: {props.score.points}</Text>
-        <Text>Lives: {props.score.lives}</Text>
+        <Text style={styles.text} >Score: {props.score.points}</Text>
+        <Text style={styles.text} >Lives: {props.score.lives}</Text>
       </View>
     )
 }

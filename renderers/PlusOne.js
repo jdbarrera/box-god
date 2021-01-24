@@ -16,7 +16,8 @@ const PlusOne = (props) => {
           }}>
         <Text style={{
           color: 'green',
-          fontSize: 16,
+          fontSize: 20,
+          fontWeight: 'bold'
           }}>+ 1</Text>  
       </View>
     );

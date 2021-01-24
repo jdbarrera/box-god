@@ -20,7 +20,9 @@ const GameHeader = (props) => {
           <ScoreView score={props.score} />
           <ControlCenter 
           startGame={props.startGame} 
-          pauseGame={props.pauseGame} />
+          pauseGame={props.pauseGame}
+          isRunning={props.isRunning} 
+          returnHome={props.returnHome} />
       </View>
     );
 }

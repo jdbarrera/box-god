@@ -9,6 +9,7 @@ import Login from './Login';
 import UserInfo from './UserInfo';
 import Bezos from '../renderers/Bezos';
 import CreateAccount from './CreateAccount';
+import HowToPlay from './HowToPlay';
 
 const backgroundImage = require('../assets/Full-background.png');
 const { width, height } = Dimensions.get("screen");
@@ -21,10 +22,12 @@ class StartScreen extends React.Component {
       isPlaying: false,
       isLoggedIn: false,
       isCreateAccount: false,
+      isHowToPlay: false,
     };
 
     this.handleStartClick = this.handleStartClick.bind(this);
     this.handleCreateAccount = this.handleCreateAccount.bind(this);
+    this.handleHowToPlay = this.handleHowToPlay.bind(this);
     this.returnHome = this.returnHome.bind(this);
   }
 
@@ -53,6 +56,20 @@ class StartScreen extends React.Component {
     }));
   }
 
+  handleHowToPlay(goBack) {
+    if (goBack) {
+      this.setState(prevState => ({
+        ...prevState,
+        isHowToPlay: false,
+      }));
+    } else {
+      this.setState(prevState => ({
+        ...prevState,
+        isHowToPlay: true,
+      }));
+    }    
+  }
+
   returnHome = () => {
     this.setState(prevState => ({
       ...prevState,
@@ -70,8 +87,8 @@ class StartScreen extends React.Component {
 
   render() {
     const isPlaying = this.state.isPlaying;
+    const isHowToPlay = this.state.isHowToPlay;
     const isCreateAccount = this.state.isCreateAccount;
-    console.log(this.props.user);
 
     if (!isPlaying) {
       if (isCreateAccount && !this.props.user.token) {
@@ -87,6 +104,8 @@ class StartScreen extends React.Component {
             </ImageBackground>  
           </View>          
         )        
+      } else if (isHowToPlay) {
+        return ( <HowToPlay handleHowToPlay={this.handleHowToPlay} /> );
       } else {
         return (
           <View style={styles.container}>
@@ -96,7 +115,7 @@ class StartScreen extends React.Component {
                 <Text style={styles.headerText}>BOX GOD</Text>
                 {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
                 {this.props.user.token
-                  ? <UserInfo handleStart={this.handleStartClick} />
+                  ? <UserInfo handleHowToPlay={this.handleHowToPlay} handleStart={this.handleStartClick} />
                   : <Login handleCreateAccount={this.handleCreateAccount} />
                 }
                 <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
@@ -144,13 +163,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     color: '#ffffff',
     fontSize: 20,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#3CB371",
-    paddingTop: 10, paddingBottom: 10,
-    borderRadius: 30,
-    width: 200,
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',

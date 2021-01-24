@@ -38,7 +38,7 @@ const CircleCollision = (entities, { touches, screen }) => {
         }
 
         //create new circle
-        let circleDemon = Matter.Bodies.circle(side, height / 3, radius, { 
+        let circleDemon = Matter.Bodies.circle(side, height / 2.5, radius, { 
           density: 0.04, 
           frictionAir: 0.005,
           trajectory: trajectory,
@@ -69,7 +69,7 @@ const CircleTrajectory = (entities, {screen}) => {
 
     Matter.Body.setPosition(circleBody, {
       x: side,
-      y: screen.height / 3,
+      y: screen.height / 2.5,
     });
   }
 

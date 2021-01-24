@@ -26,7 +26,7 @@ const levelOneEntities = (game) => {
   //create circle
   const circleSize = Math.trunc(Math.max(width, height) * 0.075);
   const radius = circleSize / 2;  
-  const circleDemon = Matter.Bodies.circle(0 - radius, height / 3, radius, { 
+  const circleDemon = Matter.Bodies.circle(0 - radius, height / 2.5, radius, { 
     density: 0.04, 
     frictionAir: 0.005,
     trajectory: randomInt(20, 30) / 10,
@@ -70,7 +70,7 @@ const levelOneEntities = (game) => {
     },
     cloudLine: {
       size: [width, boxSize / 4],
-      yPos: height / 2,
+      yPos: height / 2.5,
       color: 'blue',
       renderer: CloudLine,
     },

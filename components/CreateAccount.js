@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { connect } from 'react-redux';
 import { createUserBeog } from '../redux/actions';
 import { getUser } from '../redux/selectors';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3CB371",
     paddingTop: 10, paddingBottom: 10,
     borderRadius: 30,
-    width: 200,
+    width: 230,
   },
   text: {
     color: '#ffffff',
@@ -32,7 +32,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     margin: 20,
     width: 150,
-  }
+  },
+  errorText: {
+    color: '#ff2400',
+    fontSize: 16,
+  },
 });
 
 const CreateAccount = (props) => {
@@ -40,40 +44,67 @@ const CreateAccount = (props) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [formValid, setFormValid] = useState(false);
+  const [formErrorMsg, setFormErrorMsg] = useState('');
 
   const handleFirstNameUpdate = name => {
+    setFormErrorMsg('');
     setFirstName(name);
   };
 
   const handleLastNameUpdate = name => {
+    setFormErrorMsg('');
     setLastName(name);
   };
 
   const handleEmailUpdate = email => {
+    setFormErrorMsg('');
     setEmail(email);
   };
 
   const handlePasswordUpdate = password => {
+    setFormErrorMsg('');
     setPassword(password);
   };
 
-  const createAccount = async () => {
-    let user = {
-      email: email,
-      password: password,
-      first_name: firstName,
-      last_name: lastName,
-      AUTH_KEY: AUTH_KEY,
+  const validateEmail = (email) => {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+  const validateForm = () => {
+    if (firstName.length > 0 && lastName.length > 0 && validateEmail(email) && password.length > 8) {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+      setFormErrorMsg('Invalid Form Entry')
     }
-    props.createUserBeog(user);
+  };
+
+  const createAccount = async () => {
+    validateForm();
+    if (formValid) {
+      let user = {
+        email: email,
+        password: password,
+        first_name: firstName,
+        last_name: lastName,
+        AUTH_KEY: AUTH_KEY,
+      }
+      props.createUserBeog(user);
+    }    
   }
     
-    return (      
-      <View style={styles.login}> 
+    return (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.login}
+      >
         {props.user.loading
           ? <ActivityIndicator size="large" color="#00ff00" />
           : <View style={styles.login}>
               <Text style={styles.text}>Create a BeOG Account</Text>
+              {formErrorMsg !== '' && <Text style={styles.errorText}>{formErrorMsg}</Text>}
               <TextInput
                 placeholder="First Name"
                 placeholderTextColor='#ffffff'
@@ -99,7 +130,6 @@ const CreateAccount = (props) => {
                 style={styles.input}
               />
               <TextInput
-                style={{paddingTop: 20}}
                 placeholder="password"
                 placeholderTextColor='#ffffff'
                 value={password}
@@ -115,7 +145,7 @@ const CreateAccount = (props) => {
               </TouchableOpacity>
             </View>
         }
-      </View>  
+      </KeyboardAvoidingView>  
       
     );
 }

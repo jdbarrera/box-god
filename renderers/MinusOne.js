@@ -16,7 +16,8 @@ const MinusOne = (props) => {
           }}>
         <Text style={{
           color: 'red',
-          fontSize: 16,
+          fontSize: 20,
+          fontWeight: 'bold'
           }}>- 1</Text>  
       </View>
     );

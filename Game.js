@@ -1,4 +1,3 @@
-  
 import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, StyleSheet, StatusBar, ImageBackground } from 'react-native';
 import Constants from 'expo-constants';
@@ -80,7 +79,9 @@ const Game = ( props ) => {
           <GameHeader 
             score={props.score}
             startGame={startGame}
-            pauseGame={pauseGame} />        
+            pauseGame={pauseGame}
+            isRunning={isRunning} 
+            returnHome={returnToHome}/>        
           <StatusBar />      
         </GameEngine>
       </ImageBackground>  
