@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 3
   },
   endGameText: {
     color: '#ffffff',    

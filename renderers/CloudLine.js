@@ -21,37 +21,37 @@ const CloudLine = (props) => {
       <View style={{position: 'absolute', zIndex: 2}}>    
         <View 
           style={{
-            left: x, top: y, position: 'absolute'
+            left: 0, top: y, position: 'absolute'
           }}>
             <Image style={styles.cloud} source={require('../assets/cloud-37010_640.png')} />
         </View>
         <View 
           style={{
-            left: x + cloudWidth, top: y, position: 'absolute'
+            left: 70, top: y, position: 'absolute'
           }}>
             <Image style={styles.cloud} source={require('../assets/cloud-37010_640.png')} />
         </View>
         <View 
           style={{
-            left: x + cloudWidth * 2, top: y, position: 'absolute'
+            left: 140, top: y, position: 'absolute'
           }}>
             <Image style={styles.cloud} source={require('../assets/cloud-37010_640.png')} />
         </View>
         <View 
           style={{
-            left: x + cloudWidth * 3, top: y, position: 'absolute'
+            left: 210, top: y, position: 'absolute'
           }}>
             <Image style={styles.cloud} source={require('../assets/cloud-37010_640.png')} />
         </View>
         <View 
           style={{
-            left: x + cloudWidth * 4, top: y, position: 'absolute'
+            left: 280, top: y, position: 'absolute'
           }}>
             <Image style={styles.cloud} source={require('../assets/cloud-37010_640.png')} />
         </View>
         <View 
           style={{
-            left: x + cloudWidth * 5, top: y, position: 'absolute'
+            left: 350, top: y, position: 'absolute'
           }}>
             <Image style={styles.cloud} source={require('../assets/cloud-37010_640.png')} />
         </View>

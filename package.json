@@ -19,6 +19,7 @@
     "prop-types": "*",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-game-engine": "^1.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-game-engine": "*",
     "react-native-paper": "3.6.0",

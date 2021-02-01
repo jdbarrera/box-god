@@ -1,10 +1,14 @@
 import Matter from "matter-js";
 import Box from '../renderers/Box';
-import MinusOne from '../renderers/MinusOne'
+import MinusOne from '../renderers/MinusOne';
+import { Platform } from 'react-native';
 
 let boxIds = 0;
 
-const CreateBox = (entities, { touches, screen }) => { 
+const CreateBoxNative = (entities, { touches, screen }) => { 
+  /*if ( Platform.OS === 'ios' || Platform.OS === 'android' ) {
+
+  }*/
   
   if (!entities.box) {
     let cloudLine = entities.cloudLine.yPos
@@ -34,7 +38,43 @@ const CreateBox = (entities, { touches, screen }) => {
   
 };
 
-const BoxCollisions = (entities, { touches, screen }) => {
+const CreateBoxWeb = (entities, { input, window }) => {
+  const { payload } = input.find((x) => x.name === "onMouseDown") || {};
+
+  if (payload) {
+    if (!entities.box) {
+      let cloudLine = entities.cloudLine.yPos;
+      let world = entities["physics"].world;
+      let boxSize = Math.trunc(
+        Math.max(window.innerWidth, window.innerHeight) * 0.075
+      );
+      if (payload.pageY < cloudLine) {
+        let box = Matter.Bodies.rectangle(
+          payload.pageX,
+          payload.pageY,
+          boxSize,
+          boxSize,
+          {
+            frictionAir: 0.021,
+            restitution: 0.5
+          }
+        );
+        Matter.World.add(world, box);
+        entities.box = {
+          body: box,
+          size: [boxSize, boxSize],
+          color: boxIds % 2 == 0 ? "pink" : "#B8E986",
+          hitCircle: false,
+          renderer: Box
+        };
+      }
+    }
+  }
+
+  return entities;
+};
+
+const BoxCollisions = (entities) => {
   let world = entities["physics"].world;
   let game = entities.physics.game;
 
@@ -90,5 +130,7 @@ const BoxCollisions = (entities, { touches, screen }) => {
       
   return entities;
 };
+
+const CreateBox = Platform.OS === 'ios' || Platform.OS === 'android' ? CreateBoxNative : CreateBoxWeb;
 
 export {CreateBox, BoxCollisions};

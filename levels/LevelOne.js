@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, StatusBar, Dimensions, Button } from 'react-native';
-import Constants from 'expo-constants';
+import { Dimensions} from 'react-native';
 import Matter from "matter-js";
-import { GameEngine } from "react-native-game-engine";
-
 import Box from '../renderers/Box';
 import Circle from '../renderers/Circle';
 import CloudLine from '../renderers/CloudLine';
 import Platform from '../renderers/Platform';
 
-import Physics from '../systems/physics';
-import {CreateBox, BoxCollisions} from '../systems/Boxes';
-import {CircleCollision, CircleTrajectory} from '../systems/Circles';
-
 import { randomInt } from 'mathjs';
 
 const levelOneEntities = (game) => {
   //get screen dimensions
-  const { width, height } = Dimensions.get("screen");
+  let { width, height } = Dimensions.get("window");
     
   //create boxes
   const boxSize = Math.trunc(Math.max(width, height) * 0.075);
-  //const initialBox = Matter.Bodies.rectangle(width / 2, height / 2, boxSize, boxSize);
 
   //create circle
   const circleSize = Math.trunc(Math.max(width, height) * 0.075);
