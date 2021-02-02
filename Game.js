@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import GameEngine from "./utils/GameEngineExport";
 import GameHeader from './components/GameHeader';
 import EndGame from './components/EndGame';
-import levelOneEntities from './Levels/LevelOne';
+import levelOneEntities from './levels/LevelOne';
 import Physics from './systems/physics';
 import {CreateBox, BoxCollisions} from './systems/Boxes';
 import {CircleCollision, CircleTrajectory} from './systems/Circles';

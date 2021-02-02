@@ -10,9 +10,10 @@ import UserInfo from './UserInfo';
 import Bezos from '../renderers/Bezos';
 import CreateAccount from './CreateAccount';
 import HowToPlay from './HowToPlay';
+import PlayOnMobile from './PlayOnMobile';
 
 const backgroundImage = require('../assets/Full-background.png');
-const { width, height } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("window");
 
 class StartScreen extends React.Component {
   constructor(props) {
@@ -36,10 +37,19 @@ class StartScreen extends React.Component {
     if (this.props.user.token) { 
       this.refreshUser(); 
     }
+    if (this.props.user.loading) {
+      setInterval(this.requestTimedOut, 10000);
+    }
   }
 
   refreshUser = async () => {
     this.props.refreshUserBeog(this.props.user.token);
+  }
+
+  requestTimedOut = () => {
+    if (this.props.user.loading) {
+      this.props.loginUserFailure('Request timed out. Please try again.');
+    }
   }
 
   handleStartClick() {
@@ -104,6 +114,8 @@ class StartScreen extends React.Component {
             </ImageBackground>  
           </View>          
         )        
+      } else if (width > 480) {
+        return (<PlayOnMobile /> );
       } else if (isHowToPlay) {
         return ( <HowToPlay handleHowToPlay={this.handleHowToPlay} /> );
       } else {
@@ -113,7 +125,7 @@ class StartScreen extends React.Component {
               <View style={styles.overlay}>
                 <Bezos size={[width/3, height/4]} />   
                 <Text style={styles.headerText}>BOX GOD</Text>
-                {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
+                {this.props.user.error && <Text style={styles.errorText}>Wrong User Credentials. Please try again.</Text>}
                 {this.props.user.token
                   ? <UserInfo handleHowToPlay={this.handleHowToPlay} handleStart={this.handleStartClick} />
                   : <Login handleCreateAccount={this.handleCreateAccount} />

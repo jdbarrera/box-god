@@ -8,14 +8,14 @@ const randomSide = (circleRadius, width) => {
   if (num % 2 == 0) {
     return {
       side: left,
-      trajectory: randomInt(30, 40) / 10,
+      trajectory: randomInt(30, 60) / 10,
     }
   } else {
     return {
       side: right,
-      trajectory: (randomInt(30, 40) / 10) * -1,
+      trajectory: (randomInt(30, 60) / 10) * -1,
     }
   }
-}
+};
 
 export {randomSide};
