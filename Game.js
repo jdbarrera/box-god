@@ -93,9 +93,11 @@ const Game = ( props ) => {
 const styles = StyleSheet.create({
   gameContainer: {
     flex: 1,
-    maxWidth: 450,
+    width: width,
+    maxWidth: 480,
     backgroundColor: '#ffffff',
     paddingTop: Constants.statusBarHeight,
+    overflow: 'hidden',    
   },
   game: {
     position: 'absolute',

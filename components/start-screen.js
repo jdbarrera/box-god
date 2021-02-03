@@ -125,7 +125,7 @@ class StartScreen extends React.Component {
               <View style={styles.overlay}>
                 <Bezos size={[width/3, height/4]} />   
                 <Text style={styles.headerText}>BOX GOD</Text>
-                {this.props.user.error && <Text style={styles.errorText}>Wrong User Credentials. Please try again.</Text>}
+                {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
                 {this.props.user.token
                   ? <UserInfo handleHowToPlay={this.handleHowToPlay} handleStart={this.handleStartClick} />
                   : <Login handleCreateAccount={this.handleCreateAccount} />
