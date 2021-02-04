@@ -77,26 +77,31 @@ const EndGame = (props) => {
         <Text style={styles.endGameText}>Game Over</Text>
         <Text style={styles.scoreText}>Score: {props.currentScore}</Text>
         {props.score.loading
-        ? <ActivityIndicator size="large" color="#00ff00" />
-        : <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/> }
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleOpenWithWebBrowser}
-        >
-          <Text style={styles.text} >View Scoreboard</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.border]}
-          onPress={props.restart}
-        >
-          <Text style={styles.text} >Restart</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={props.returnToHome}
-        >
-          <Text style={styles.text} >Return to Home Screen</Text>
-        </TouchableOpacity>
+          ? 
+            <ActivityIndicator size="large" color="#00ff00" />
+          : 
+            <View>
+              <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleOpenWithWebBrowser}
+              >
+                <Text style={styles.text} >View Scoreboard</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.border]}
+                onPress={props.restart}
+              >
+                <Text style={styles.text} >Restart</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={props.returnToHome}
+              >
+                <Text style={styles.text} >Return to Home Screen</Text>
+              </TouchableOpacity> 
+            </View>        
+        }        
       </View>
     );
 }
