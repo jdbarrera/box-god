@@ -65,14 +65,14 @@ export const createUserAPI = async (user) => {
   }  
 };
 
-export const getHighScoreAPI = async (token) => {
+export const getUserMetaAPI = async (token) => {
   try {
     const response = await axios.get(userMe, {
       headers: {
         Authorization: "Bearer " + token
       }
     });
-    return response.data.meta.boxgod_score;
+    return response.data.meta;
   } catch (error) {
     return error.response.data;
   }  

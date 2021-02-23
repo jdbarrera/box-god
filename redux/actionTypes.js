@@ -3,6 +3,7 @@ import { exp } from "mathjs";
 export const SET_POINTS = 'SET_POINTS';
 export const SET_LIVES = 'SET_LIVES';
 export const SET_HISCORE = 'SET_HISCORE';
+export const SET_PURCHASED_PASS = 'SET_PURCHASED_PASS';
 export const SCORE_ERROR = 'SCORE_ERROR';
 export const SCORE_ACTION = 'SCORE_ACTION';
 export const USER_ACTION = 'USER_ACTION';

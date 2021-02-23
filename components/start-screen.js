@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import Game from '../Game';
 import {connect} from 'react-redux';
 import {getUser} from '../redux/selectors';
-import {loginUserFailure, getHighScoreBeog, refreshUserBeog} from '../redux/actions';
+import {loginUserFailure, refreshUserBeog} from '../redux/actions';
 import Login from './Login';
 import UserInfo from './UserInfo';
 import Bezos from '../renderers/Bezos';
@@ -96,6 +96,7 @@ class StartScreen extends React.Component {
   }
 
   render() {
+    //console.log(this.props.user.purchasedPass)
     const isPlaying = this.state.isPlaying;
     const isHowToPlay = this.state.isHowToPlay;
     const isCreateAccount = this.state.isCreateAccount;
@@ -107,7 +108,7 @@ class StartScreen extends React.Component {
             <ImageBackground source={backgroundImage} style={styles.backgroundImage}>            
               <View style={styles.overlay}>                
                 <Bezos size={[width/3, height/4]} />   
-                {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
+                {this.props.user.error && <Text style={styles.errorText}>{JSON.stringify(this.props.user.error)}</Text>}
                 <CreateAccount returnHome={this.returnHome} />
                 <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
               </View>  
@@ -125,9 +126,12 @@ class StartScreen extends React.Component {
               <View style={styles.overlay}>
                 <Bezos size={[width/3, height/4]} />   
                 <Text style={styles.headerText}>BOX GOD</Text>
-                {this.props.user.error && <Text style={styles.errorText}>{this.props.user.error}</Text>}
+                {this.props.user.error && <Text style={styles.errorText}>{JSON.stringify(this.props.user.error)}</Text>}
                 {this.props.user.token
-                  ? <UserInfo handleHowToPlay={this.handleHowToPlay} handleStart={this.handleStartClick} />
+                  ? <UserInfo 
+                    handleHowToPlay={this.handleHowToPlay} 
+                    handleStart={this.handleStartClick}
+                    refreshUser={this.refreshUser} />
                   : <Login handleCreateAccount={this.handleCreateAccount} />
                 }
                 <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
@@ -193,5 +197,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getUser, loginUserFailure, getHighScoreBeog, refreshUserBeog
+  getUser, loginUserFailure, refreshUserBeog
 })(StartScreen);

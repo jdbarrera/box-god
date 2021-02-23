@@ -2,6 +2,7 @@ import {
   SET_POINTS,
   SET_LIVES,
   SET_HISCORE,
+  SET_PURCHASED_PASS,
   SCORE_ERROR,
   SCORE_ACTION,
   USER_ACTION,
@@ -16,7 +17,7 @@ import {
   loginUserAPI, 
   logoutUserAPI, 
   validateUserAPI,
-  getHighScoreAPI,
+  getUserMetaAPI,
   updateHighScoreAPI,
   refreshUserAPI,
   createUserAPI,
@@ -69,7 +70,7 @@ export const loginUserBeog = (userDets) => async dispatch => {
       dispatch(loginUserFailure(loginResponse.data.message));          
     } else {
       const jwt = loginResponse.data.data.jwt;
-      dispatch(getHighScoreBeog(jwt));
+      dispatch(getUserMetaBeog(jwt));
       dispatch(validateUserBeog(jwt));  
     }    
   } catch (error) {
@@ -88,9 +89,11 @@ export const validateUserBeog = (jwt) => async dispatch => {
 }
 
 export const refreshUserBeog = (jwt) => async dispatch => {
+  dispatch(userAction());
+  
   try {
     const newToken = await refreshUserAPI(jwt);
-    dispatch(getHighScoreBeog(newToken));
+    dispatch(getUserMetaBeog(newToken));
     dispatch(refreshUser(newToken));
   } catch (error) {
     dispatch(loginUserFailure(error));
@@ -128,12 +131,16 @@ export const logoutUserBeog = (token) => async dispatch => {
   }
 }
 
-export const getHighScoreBeog = (token) => async dispatch => {
+export const getUserMetaBeog = (token) => async dispatch => {
   dispatch(scoreAction());
   
   try {
-    const score = await getHighScoreAPI(token);
+    const metaData = await getUserMetaAPI(token);
+    const score = metaData.boxgod_score;
+    const purchasedPass = metaData.purchased_pass;
     dispatch(setHighScore(score));
+    dispatch(setPurchasedPass(purchasedPass));
+    return purchasedPass;
   } catch (error) {
     dispatch(scoreError(error));
   }
@@ -155,3 +162,5 @@ export const setPoints = points => ({ type: SET_POINTS, payload: { points } });
 export const setLives = lives => ({ type: SET_LIVES, payload: { lives } });
 
 export const setHighScore = hiScore => ({ type: SET_HISCORE, payload: { hiScore } });
+
+export const setPurchasedPass = purchasedPass => ({ type: SET_PURCHASED_PASS, payload: { purchasedPass } });

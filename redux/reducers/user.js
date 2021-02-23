@@ -1,6 +1,7 @@
 import { 
   USER_ACTION,
   REFRESH_USER,
+  SET_PURCHASED_PASS,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
   LOGOUT_USER_SUCCESS,
@@ -12,6 +13,8 @@ const initialState = {
   email: "",
   displayname: "",
   token: "",
+  msg: "",
+  purchasedPass: false,
   error: null,
   loading: false,
 };
@@ -27,6 +30,7 @@ const user = (state = initialState, action) => {
       return {
           ...state, 
           token: action.payload,
+          loading: false,
       };  
     case LOGIN_USER_SUCCESS:
       return {
@@ -64,6 +68,12 @@ const user = (state = initialState, action) => {
           error: action.payload,
           loading: false,
       };
+    case SET_PURCHASED_PASS:
+      return {
+          ...state, 
+          purchasedPass: action.payload.purchasedPass,
+          loading: false,
+      };  
     default:
       return state;
   }

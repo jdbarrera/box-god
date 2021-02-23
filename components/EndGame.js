@@ -3,7 +3,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { uploadHighScoreBeog, getHighScoreBeog } from '../redux/actions';
+import { uploadHighScoreBeog, getUserMetaBeog } from '../redux/actions';
 import { getUser, getScore } from '../redux/selectors';
 import EndScore from './EndScore';
 import Bezos from '../renderers/Bezos';
@@ -52,16 +52,23 @@ const styles = StyleSheet.create({
   border: {
     marginTop: 20,
     marginBottom: 20,
+  },
+  centerView: {
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 const EndGame = (props) => {
 
   const uploadScore = async () => {
-    if (props.score.points > props.score.hiScore) {
-      props.uploadHighScoreBeog(props.score.points, props.user.token);
-    }    
-  }
+    const didPurchasePass = await props.getUserMetaBeog(props.user.token);
+    if (didPurchasePass) {
+      if (props.score.points > props.score.hiScore) {
+        props.uploadHighScoreBeog(props.score.points, props.user.token);
+      } 
+    }       
+  };
 
   useEffect(() => {
     uploadScore();
@@ -80,8 +87,8 @@ const EndGame = (props) => {
           ? 
             <ActivityIndicator size="large" color="#00ff00" />
           : 
-            <View>
-              <EndScore userToken={props.user.token} userHiScore={props.score.hiScore}/>
+            <View style={styles.centerView}>
+              <EndScore purchasedPass={props.user.purchasedPass} userHiScore={props.score.hiScore}/>
               <TouchableOpacity
                 style={styles.button}
                 onPress={handleOpenWithWebBrowser}
@@ -116,4 +123,4 @@ const mapStateToProps = state => ({
   score: getScore(state),
 });
 
-export default connect(mapStateToProps, {uploadHighScoreBeog, getHighScoreBeog, getScore})(EndGame);
+export default connect(mapStateToProps, {uploadHighScoreBeog, getUserMetaBeog, getScore})(EndGame);
