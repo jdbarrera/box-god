@@ -1,18 +1,18 @@
 {
   "files": {
-    "app.js": "/static/js/app.ddf3884d.chunk.js",
-    "app.js.map": "/static/js/app.ddf3884d.chunk.js.map",
+    "app.js": "/static/js/app.2d49afe6.chunk.js",
+    "app.js.map": "/static/js/app.2d49afe6.chunk.js.map",
     "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
     "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.171d7394.chunk.js": "/static/js/2.171d7394.chunk.js",
-    "static/js/2.171d7394.chunk.js.map": "/static/js/2.171d7394.chunk.js.map",
+    "static/js/2.f80dbfd0.chunk.js": "/static/js/2.f80dbfd0.chunk.js",
+    "static/js/2.f80dbfd0.chunk.js.map": "/static/js/2.f80dbfd0.chunk.js.map",
     "favicon-16.png": "/favicon-16.png",
     "favicon-32.png": "/favicon-32.png",
     "favicon.ico": "/favicon.ico",
     "index.html": "/index.html",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "static/js/2.171d7394.chunk.js.LICENSE.txt": "/static/js/2.171d7394.chunk.js.LICENSE.txt",
+    "static/js/2.f80dbfd0.chunk.js.LICENSE.txt": "/static/js/2.f80dbfd0.chunk.js.LICENSE.txt",
     "static/media/Full-background.png": "/static/media/Full-background.fc86a6e1.png",
     "static/media/bezos-face-mad.png": "/static/media/bezos-face-mad.712cc52f.png",
     "static/media/bezos-face.png": "/static/media/bezos-face.e43e5f1f.png",
@@ -21,7 +21,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.171d7394.chunk.js",
-    "static/js/app.ddf3884d.chunk.js"
+    "static/js/2.f80dbfd0.chunk.js",
+    "static/js/app.2d49afe6.chunk.js"
   ]
 }

@@ -2,10 +2,10 @@ import React, { Component, useState, useEffect } from "react";
 import * as WebBrowser from 'expo-web-browser';
 import { View, Button, StyleSheet, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import { connect } from 'react-redux';
-import { logoutUserBeog } from '../redux/actions';
+import { logoutUserBeog, getHighScoreBeog } from '../redux/actions';
 import { getUser, getScore } from '../redux/selectors';
 
-const purchaseTicketTxt = 'Box God Round 1 is in now session. Purchase a pass below if you want your score to upload.  The top player by February 30 will win $50.';
+const purchaseTicketTxt = 'Box God Round 1 is in now in session. Purchase a pass below if you want your score to upload (You will be asked to login again to purchase).  The top player by March 31 will win $50.';
 const passPurchasedTxt = "Your Round 1 pass has been purchased and verified!";
 
 const styles = StyleSheet.create({
@@ -138,4 +138,4 @@ const mapStateToProps = state => ({
   score: getScore(state),
 });
 
-export default connect(mapStateToProps, {logoutUserBeog, getScore})(UserInfo);
+export default connect(mapStateToProps, {logoutUserBeog, getHighScoreBeog, getScore})(UserInfo);
