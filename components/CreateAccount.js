@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { createUserBeog } from '../redux/actions';
 import { getUser } from '../redux/selectors';
 
-const AUTH_KEY = 'SuperSpecialBeOG690';
-
 const styles = StyleSheet.create({
   login: {
     justifyContent: 'center',

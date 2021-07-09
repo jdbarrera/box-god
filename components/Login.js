@@ -115,8 +115,8 @@ const Login = (props) => {
                 <Text style={styles.text}>Login</Text>
               </TouchableOpacity>
               <Text style={[styles.text, styles.border]}>-------- OR --------</Text>
-              <TouchableOpacity style={styles.createAccountButton} onPress={props.handleCreateAccount} >
-                <Text style={styles.text}>Create a BeOG Account</Text>
+              <TouchableOpacity style={styles.createAccountButton} onPress={props.handleStartClick} >
+                <Text style={styles.text}>Play as Guest</Text>
               </TouchableOpacity>
             </View>
         }

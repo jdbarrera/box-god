@@ -132,7 +132,7 @@ class StartScreen extends React.Component {
                     handleHowToPlay={this.handleHowToPlay} 
                     handleStart={this.handleStartClick}
                     refreshUser={this.refreshUser} />
-                  : <Login handleCreateAccount={this.handleCreateAccount} />
+                  : <Login handleStartClick={this.handleStartClick} handleCreateAccount={this.handleCreateAccount} />
                 }
                 <Text style={styles.companyTags}>BeOG & Sight Productions</Text>
               </View>  
