@@ -6,89 +6,89 @@ import GameHeader from './components/GameHeader';
 import EndGame from './components/EndGame';
 import levelOneEntities from './levels/LevelOne';
 import Physics from './systems/physics';
-import {CreateBox, BoxCollisions} from './systems/Boxes';
-import {CircleCollision, CircleTrajectory} from './systems/Circles';
+import { CreateBall, BallCollisions } from './systems/Ball';
+import { PlayerCollision, PlayerTrajectory } from './systems/Player';
 import {MoveHitIndicators} from './systems/hitIndicators';
 import { connect } from 'react-redux';
 import { getScore } from './redux/selectors';
 import { setPoints, setLives } from './redux/actions';
 
-const backgroundImage = require('./assets/Full-background.png');
+const backgroundImage = require('./assets/baseballBackground.png');
 const { width, height } = Dimensions.get("window");
 
-const Game = ( props ) => {
+const Game = props => {
   const [isRunning, setIsRunning] = useState(true);
+  const [points, setPoints] = useState(0);
+  const [lives, setLives] = useState(3);
   const game = useRef(null);
-  
+
   const pauseGame = () => {
-    setIsRunning(false);
+      setIsRunning(false);
   };
 
   const startGame = () => {
-    setIsRunning(true);
+      setIsRunning(true);
+  };
+
+  const getEntities = (level, game) => {
+      return levelOneEntities(game);
   };
 
   const restart = () => {
-    props.setLives(3);
-    props.setPoints(0);
-    game.current.swap(getEntities(1, game));
+      setLives(3);
+      setPoints(0);
+      game.current.swap(getEntities(1, game));
   };
 
   const returnToHome = () => {
-    restart();
-    props.returnHome();
+      restart();
+      props.returnHome();
   };
 
-  const onEvent = (e) => {
-    switch(e.type) {
-      case 'ADD_POINT':
-        props.setPoints(props.score.points + 1);
-        break;
-      case 'LIFE_LOST':
-        props.setLives(props.score.lives - 1);
-        break;
-    }    
-  }
-
-  const getEntities = (level, game) => {
-    return levelOneEntities(game);
-  }
+  const onEvent = e => {
+      switch (e.type) {
+          case 'ADD_POINT':
+              setPoints(points + 1);
+              break;
+          case 'LIFE_LOST':
+              setLives(lives - 1);
+              break;
+      }
+  };
 
   return (
       <View style={styles.gameContainer}>
-        <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-          <GameEngine 
-          style={styles.game}
-          systems={[
-            Physics, 
-            CreateBox, 
-            BoxCollisions, 
-            CircleCollision, 
-            CircleTrajectory,
-            MoveHitIndicators
-            ]}
-          ref={game}
-          entities={getEntities(1, game)}
-          running={isRunning}
-          onEvent={onEvent}
-          >
-          {props.score.lives <= 0 && 
-            <EndGame 
-              restart={restart} 
-              currentScore={props.score.points} 
-              returnToHome={returnToHome} />}
-            <GameHeader 
-              score={props.score}
-              startGame={startGame}
-              pauseGame={pauseGame}
-              isRunning={isRunning} 
-              returnHome={returnToHome}/>        
-            <StatusBar />      
-          </GameEngine>
-        </ImageBackground>  
+          <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+              <GameEngine
+                  style={styles.game}
+                  systems={[
+                      Physics,
+                      CreateBall,
+                      BallCollisions,
+                      PlayerCollision,
+                      PlayerTrajectory,
+                      MoveHitIndicators
+                  ]}
+                  ref={game}
+                  entities={getEntities(1, game)}
+                  running={isRunning}
+                  onEvent={onEvent}
+              >
+                  {lives <= 0 && <EndGame restart={restart} currentScore={points} returnToHome={returnToHome} />}
+                  <GameHeader
+                      points={points}
+                      lives={lives}
+                      startGame={startGame}
+                      pauseGame={pauseGame}
+                      isRunning={isRunning}
+                      returnHome={returnToHome}
+                  />
+                  <StatusBar />
+              </GameEngine>
+          </ImageBackground>
       </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   gameContainer: {
